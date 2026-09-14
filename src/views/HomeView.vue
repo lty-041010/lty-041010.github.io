@@ -17,11 +17,7 @@ useSeo(() => ({ title: '', description: site.description }))
   <div class="mx-auto max-w-3xl px-5">
     <!-- Hero -->
     <section class="pt-16 pb-14 sm:pt-24">
-      <div
-        class="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-emerald-400 text-2xl font-semibold text-white"
-      >
-        {{ site.author.slice(0, 1) }}
-      </div>
+      <img :src="site.avatar" alt="avatar" class="mb-6 h-16 w-16 rounded-full object-cover" />
 
       <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-slate-50">
         你好，我是{{ site.author }}
