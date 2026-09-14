@@ -47,6 +47,7 @@ npm run build
 npm run lint
 ```
 
+### 项目结构
 ```
 lty-041010.github.io/  (你的博客仓库根目录)
 │
