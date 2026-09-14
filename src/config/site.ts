@@ -1,6 +1,8 @@
 export const site = {
   /** 站点名（显示在导航左侧） */
   name: '龙天宇',
+  /** 头像路径，指向 public 里的图片 */
+  avatar: '/my-avatar.jpg', 
   /** 完整标题（浏览器标签） */
   title: '龙天宇的博客',
   description: '记录前端、设计与生活。',
