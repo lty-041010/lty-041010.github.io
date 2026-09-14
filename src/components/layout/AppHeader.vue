@@ -38,10 +38,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
     class="sticky top-0 z-40 border-b border-slate-200/70 bg-[#fafafa]/85 backdrop-blur-md dark:border-slate-800/70 dark:bg-[#0b0f14]/85"
   >
     <div class="mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-5">
-      <RouterLink
+            <RouterLink
         to="/"
-        class="text-[15px] font-semibold tracking-tight text-slate-900 transition-colors hover:text-indigo-600 dark:text-slate-100 dark:hover:text-indigo-400"
+        class="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-slate-900 transition-colors hover:text-indigo-600 dark:text-slate-100 dark:hover:text-indigo-400"
       >
+        <img :src="site.avatar" alt="avatar" class="h-8 w-8 rounded-full object-cover" />
         {{ site.name }}
       </RouterLink>
 
