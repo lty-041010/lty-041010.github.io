@@ -47,7 +47,7 @@ npm run build
 npm run lint
 ```
 
-
+```
 lty-041010.github.io/  (你的博客仓库根目录)
 │
 ├── .github/                   🤖 【自动化机器人】
@@ -85,3 +85,4 @@ lty-041010.github.io/  (你的博客仓库根目录)
 ├── README.md                  (仓库说明书，你可以写点项目简介)
 ├── tsconfig.json              (TypeScript配置，不用管)
 └── vite.config.ts             ⚙️ (打包配置，你上次白屏就是改这里的 base 路径)
+```
