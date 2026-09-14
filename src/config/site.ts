@@ -1,10 +1,10 @@
 export const site = {
   /** 站点名（显示在导航左侧） */
-  name: '龙天宇',
+  name: '个人博客',
   /** 头像路径，指向 public 里的图片 */
   avatar: '/my-avatar.jpg', 
   /** 完整标题（浏览器标签） */
-  title: '龙天宇的博客',
+  title: '个人博客',
   description: '记录前端、设计与生活。',
   /** 部署后的完整地址，末尾必须带 / */
   url: 'https://lty04.dpdns.org/',
