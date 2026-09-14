@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 // vite.config.ts
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const base = env.VITE_BASE || '/blog/' // 如果没有 VITE_BASE 环境变量，就用 '/blog/'
+  const base = env.VITE_BASE || '/' // 如果没有 VITE_BASE 环境变量，就用 '/blog/'
 
   return {
     base, // 这里使用 base 变量
