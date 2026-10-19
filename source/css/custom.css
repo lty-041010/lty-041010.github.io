@@ -1,0 +1,22 @@
+/* --- 针对文章页的顶部大图进行规范 --- */
+#page-header {
+  /* 1. 核心！保证图片始终铺满，但不拉伸变形，多出的部分居中裁剪 */
+  background-size: cover !important;
+  
+  /* 2. 居中显示，确保图片的主体部分（比如人脸）不会因为裁剪而消失 */
+  background-position: center center !important;
+  
+  /* 3. 防止背景重复 */
+  background-repeat: no-repeat !important;
+}
+
+/* --- 如果你希望首页的卡片封面（cover）也规定一个固定比例（比如 16:9） --- */
+.recent-post-item .post_cover {
+  height: 200px; /* 设定一个固定高度 */
+  overflow: hidden;
+}
+.recent-post-item .post_cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保证图片不被拉伸变形，居中裁剪 */
+}
