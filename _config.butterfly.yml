@@ -305,7 +305,7 @@ giscus:
   js: https://giscus.app/client.js
   lang: zh-CN
   option:
-    
+    origin: https://lty04.dpdns.org
 
 # --------------------------------------
 # 聊天、统计、广告、验证（保持关闭）
