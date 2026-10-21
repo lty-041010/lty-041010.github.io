@@ -450,6 +450,7 @@ body {
     font-size: 1.2em;
 }
 
+
 /* =========================================
    友链申请表单的毛玻璃 UI
 ========================================= */
@@ -529,4 +530,82 @@ body.ui-glass #giscus-wrap iframe {
 /* 给评论框外层加个淡淡的底，防止文字看不清 */
 body.ui-glass .gsc-comment-box {
     background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+/* =========================================
+   友链全局悬浮预览窗 (原生版)
+========================================= */
+#global-flink-popover {
+    position: fixed;
+    z-index: 99999;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    pointer-events: none; /* 让鼠标穿透小窗，防止闪烁 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.3s;
+    padding: 20px 15px;
+    text-align: center;
+}
+
+[data-theme="dark"] #global-flink-popover {
+    background: rgba(30, 30, 30, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+#global-flink-popover .preview-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: #fff;
+    /* 确保图片居中 */
+    display: block;
+    margin: 0 auto 12px auto;
+}
+
+[data-theme="dark"] #global-flink-popover .preview-avatar {
+    border-color: #444;
+}
+
+#global-flink-popover .preview-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+[data-theme="dark"] #global-flink-popover .preview-name {
+    color: #fff;
+}
+
+#global-flink-popover .preview-descr {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 最多两行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+[data-theme="dark"] #global-flink-popover .preview-descr {
+    color: #aaa;
+}
+
+/* 恢复原本网格布局 */
+.flink-list-item {
+    position: relative;
+    z-index: 1;
 }

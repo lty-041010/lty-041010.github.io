@@ -456,36 +456,95 @@ inject:
     - |
       <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. 动态背景
             var isMobile = window.innerWidth <= 768;
-            
-            var apiPool = isMobile 
-                ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile", "https://t.alcy.cc/mp"]
-                : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k", "https://api.dujin.org/bing/1920.php", "https://t.alcy.cc/pc"];
-                
-            var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
+            var apiPool = isMobile ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile"] : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k"];
             var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
-            var finalUrl = randomApi.includes("bing") ? randomApi : randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
-
-            var imgTester = new Image();
-            imgTester.src = finalUrl;
-            
-            imgTester.onload = function() {
-                document.documentElement.style.setProperty('--bg-img', `url('${finalUrl}')`);
-                document.body.classList.add('bg-random-image');
-            };
-            
-            imgTester.onerror = function() {
-                document.documentElement.style.setProperty('--bg-img', `url('${fallbackImg}')`);
-                document.body.classList.add('bg-random-image');
-            };
-
+            var finalUrl = randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+            document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
+            document.body.classList.add('bg-random-image');
             document.body.classList.add('ui-glass');
 
-            var covers = document.querySelectorAll(".post-bg");
-            covers.forEach(function (cover) {
-              var coverUrl = randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
-              cover.style.backgroundImage = "url('" + coverUrl + "')";
-            });
+            // 2. 友链高级悬浮预览 (原生 DOM 构建版，无任何 innerHTML)
+            setTimeout(function() {
+                const flinkItems = document.querySelectorAll('.flink-list-item');
+                if(flinkItems.length === 0) return;
+
+                // 创建全局小窗容器
+                const popover = document.createElement('div');
+                popover.id = 'global-flink-popover';
+                
+                // 创建内部节点
+                const avatarEl = document.createElement('img');
+                avatarEl.className = 'preview-avatar';
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'preview-name';
+                
+                const descrEl = document.createElement('div');
+                descrEl.className = 'preview-descr';
+
+                // 组装
+                popover.appendChild(avatarEl);
+                popover.appendChild(nameEl);
+                popover.appendChild(descrEl);
+                document.body.appendChild(popover);
+
+                flinkItems.forEach(item => {
+                    const img = item.querySelector('img');
+                    const itemNameEl = item.querySelector('.flink-item-name');
+                    const itemDescrEl = item.querySelector('.flink-item-desc');
+                    
+                    const name = itemNameEl ? itemNameEl.innerText.trim() : '神秘站点';
+                    const descr = itemDescrEl ? itemDescrEl.innerText.trim() : '这个人很懒，什么都没留下';
+                    
+                    // 自动生成兜底头像
+                    let avatarSrc = '';
+                    if (img && img.src && !img.src.includes('data:image')) {
+                        avatarSrc = img.src;
+                    } else {
+                        avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
+                        if (img) img.src = avatarSrc; // 替换卡片里的图片
+                    }
+
+                    // 鼠标移入
+                    item.addEventListener('mouseenter', function(e) {
+                        nameEl.innerText = name;
+                        descrEl.innerText = descr;
+                        avatarEl.src = avatarSrc;
+                        
+                        popover.style.opacity = '1';
+                        popover.style.visibility = 'visible';
+                        popover.style.transform = 'translateY(0) scale(1)';
+                    });
+
+                    // 鼠标移动跟随
+                    item.addEventListener('mousemove', function(e) {
+                        let x = e.clientX + 20;
+                        let y = e.clientY + 20;
+                        
+                        const popoverWidth = 260;
+                        const popoverHeight = 180; 
+                        
+                        if (x + popoverWidth > window.innerWidth) {
+                            x = e.clientX - popoverWidth - 20; // 右边超界放左边
+                        }
+                        if (y + popoverHeight > window.innerHeight) {
+                            y = e.clientY - popoverHeight - 20; // 下边超界放上边
+                        }
+
+                        popover.style.left = x + 'px';
+                        popover.style.top = y + 'px';
+                    });
+
+                    // 鼠标移出
+                    item.addEventListener('mouseleave', function() {
+                        popover.style.opacity = '0';
+                        popover.style.visibility = 'hidden';
+                        popover.style.transform = 'translateY(10px) scale(0.95)';
+                    });
+                });
+            }, 500);
         });
       </script>
       
