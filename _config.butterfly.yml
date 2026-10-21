@@ -300,8 +300,8 @@ giscus:
   repo_id: R_kgDOVP0sGg
   category: Comments
   category_id: DIC_kwDOVP0sGs4DJH_W
-  light_theme: https://lty04.dpdns.org/css/giscus-theme.css
-  dark_theme: https://lty04.dpdns.org/css/giscus-theme.css  
+  light_theme: light
+  dark_theme: dark 
   js: https://giscus.app/client.js
   lang: zh-CN
   option:
