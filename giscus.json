@@ -1,0 +1,9 @@
+{
+  "origins": [
+    "https://lty04.dpdns.org",
+    "http://localhost:4000"
+  ],
+  "originsRegex": [
+    "http://localhost:[0-9]+"
+  ]
+}

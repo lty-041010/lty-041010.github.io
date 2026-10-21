@@ -1,0 +1,532 @@
+/* =========================================
+   博客终极美化：无缝大图 + 多端毛玻璃
+========================================= */
+
+/* 基础过渡动画 */
+body .recent-post-item, body .card-widget {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* =========================================
+   1. 核心背景系统：一镜到底，无缝衔接
+========================================= */
+
+/* 整个网页唯一的背景层（固定不动） */
+body.bg-random-image {
+    /* 统一使用 60% 的半透明遮罩，确保整体色调一致 */
+    background-image: linear-gradient(rgba(244, 245, 247, 0.65), rgba(244, 245, 247, 0.65)), var(--bg-img) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important; /* 核心：让背景固定在屏幕上 */
+}
+[data-theme="dark"] body.bg-random-image {
+    background-image: linear-gradient(rgba(22, 22, 24, 0.75), rgba(22, 22, 24, 0.75)), var(--bg-img) !important;
+}
+
+/* 顶部横幅：彻底透明，露出底部的全局背景 */
+#page-header {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* 顶部只加一层向下的渐变压暗，保证导航栏和标题文字清晰 */
+#page-header::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%) !important;
+}
+
+/* 彻底删掉微模糊伪元素，消除断层感 */
+body.bg-random-image::before {
+    display: none !important;
+}
+
+
+/* =========================================
+   2. 卡片风格：完美的毛玻璃态
+========================================= */
+body.ui-glass .recent-post-item, 
+body.ui-glass .card-widget {
+    border-radius: 16px !important; 
+    background: rgba(255, 255, 255, 0.4) !important; 
+    backdrop-filter: blur(20px) !important; 
+    -webkit-backdrop-filter: blur(20px) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.6) !important; 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+}
+body.ui-glass .recent-post-item:hover, 
+body.ui-glass .card-widget:hover { 
+    background: rgba(255, 255, 255, 0.7) !important; 
+}
+body.ui-glass .recent-post-item .post_cover.left { border-radius: 16px 0 0 16px !important; }
+body.ui-glass .recent-post-item .post_cover.right { border-radius: 0 16px 16px 0 !important; }
+
+[data-theme="dark"] body.ui-glass .recent-post-item, 
+[data-theme="dark"] body.ui-glass .card-widget { 
+    background: rgba(30, 30, 30, 0.4) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+}
+
+body .recent-post-item .recent-post-info, 
+body .card-widget .item-headline, 
+body .card-widget .card-content { 
+    background: transparent !important; 
+}
+
+/* =========================================
+   3. 页脚美化：完全透明
+========================================= */
+#footer {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-top: none !important; 
+    box-shadow: none !important;
+    padding: 30px 0 !important;
+}
+#footer, #footer a { color: #333333 !important; }
+[data-theme="dark"] #footer, [data-theme="dark"] #footer a { color: #d1d1d1 !important; }
+
+/* =========================================
+   4. 多端适配：针对手机端 (<= 768px)
+========================================= */
+@media screen and (max-width: 768px) {
+    /* 手机端取消固定背景防止卡顿 */
+    body.bg-random-image {
+        background-attachment: scroll !important; 
+        background-image: linear-gradient(rgba(244, 245, 247, 0.55), rgba(244, 245, 247, 0.55)), var(--bg-img) !important;
+    }
+    [data-theme="dark"] body.bg-random-image {
+        background-image: linear-gradient(rgba(22, 22, 24, 0.7), rgba(22, 22, 24, 0.7)), var(--bg-img) !important;
+    }
+
+    /* 手机端卡片降低模糊度，加白色高光边 */
+    body.ui-glass .recent-post-item, 
+    body.ui-glass .card-widget {
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        background: rgba(255, 255, 255, 0.25) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        border-radius: 12px !important; 
+        margin: 0 10px 15px 10px !important; 
+    }
+    [data-theme="dark"] body.ui-glass .recent-post-item, 
+    [data-theme="dark"] body.ui-glass .card-widget {
+        background: rgba(30, 30, 30, 0.35) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+}
+
+/* =========================================
+   5. 精准内容区毛玻璃 (修复糊成一团的问题)
+========================================= */
+
+/* 针对关于页、留言板等独立页面的大容器，以及侧边栏/文章卡片 */
+body.ui-glass #page,
+body.ui-glass #post,
+body.ui-glass .card-widget {
+    background: rgba(255, 255, 255, 0.3) !important; /* 降低白底透明度，更透 */
+    backdrop-filter: blur(10px) !important;          /* 降低模糊度，防止糊成一团 */
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+    
+    /* 只有大容器需要内边距，卡片自带内边距不要加 */
+    padding: 20px !important;
+}
+
+/* 让卡片内部的元素恢复纯净，不要叠加多层玻璃 */
+body.ui-glass .card-widget * {
+    background: transparent !important;
+}
+
+/* 暗黑模式适配 */
+[data-theme="dark"] body.ui-glass #page,
+[data-theme="dark"] body.ui-glass #post,
+[data-theme="dark"] body.ui-glass .card-widget {
+    background: rgba(30, 30, 30, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* =========================================
+   6. 评论区与留言板彻底透明
+========================================= */
+/* 把包裹“评论”标题和 Giscus 的外壳扒光 */
+body.ui-glass #post-comment,
+body.ui-glass .comment-wrap,
+body.ui-glass #giscus-wrap,
+body.ui-glass .giscus-container,
+body.ui-glass #giscus {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* 强行让 iframe 背景透明 */
+body.ui-glass #giscus-wrap iframe {
+    background: transparent !important;
+}
+
+/* 修复留言板内部深层的顽固白框（比如文章容器里的特定块） */
+body.ui-glass #article-container,
+body.ui-glass #article-container .post-content {
+    background: transparent !important;
+    backdrop-filter: none !important;
+}
+
+/* =========================================
+   7. 友链、分类、标签页 内部细节修补
+========================================= */
+/* 友链页的独立卡片 */
+body.ui-glass .flink-list-item {
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 12px !important;
+}
+[data-theme="dark"] body.ui-glass .flink-list-item {
+    background: rgba(30, 30, 30, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 分类/标签页的列表项背景变透明 */
+body.ui-glass #article-container .category-list,
+body.ui-glass #article-container .tag-cloud {
+    background: transparent !important;
+}
+
+/* =========================================
+   8. 内部组件深度轻量化 (去除补丁感)
+========================================= */
+
+/* 1. 代码块深度透明化 (截图1、2的痛点) */
+body.ui-glass figure.highlight {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+/* 代码块顶部的语言栏 */
+body.ui-glass figure.highlight .highlight-tools {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #666 !important; /* 浅色文字 */
+}
+/* 代码块的每一行背景 */
+body.ui-glass figure.highlight td.gutter,
+body.ui-glass figure.highlight td.code {
+    background: transparent !important;
+}
+body.ui-glass figure.highlight pre {
+    background: transparent !important;
+}
+
+/* 2. 引用块变通透 (截图1) */
+body.ui-glass blockquote {
+    background: rgba(255, 255, 255, 0.2) !important; /* 去掉蓝绿色底，变纯透明 */
+    border-left: 4px solid #49B1F5 !important; /* 保留左侧装饰线 */
+    color: #333 !important;
+}
+
+/* 3. 折叠面板（关于页的隐藏属性）减负 */
+body.ui-glass .hide-toggle {
+    background: transparent !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+/* 折叠面板的标题栏 */
+body.ui-glass .hide-toggle .toggle-title {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+/* 折叠面板的内容区 */
+body.ui-glass .hide-toggle .toggle-content {
+    background: transparent !important;
+}
+
+/* 4. 侧边悬浮目录（TOC）毛玻璃化 (截图2) */
+body.ui-glass #toc,
+body.ui-glass .toc-div {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 12px !important;
+}
+
+/* 5. 修复标签页/分类页内的列表项（避免变成纯白长条） */
+body.ui-glass .category-list,
+body.ui-glass .tag-cloud {
+    background: transparent !important;
+}
+
+/* =========================================
+   9. 归档页面专属毛玻璃补丁
+========================================= */
+body.ui-glass #archive,
+body.ui-glass .article-sort,
+body.ui-glass #archive .post-content {
+    background: rgba(255, 255, 255, 0.3) !important; /* 半透明白底 */
+    backdrop-filter: blur(15px) !important;          /* 磨砂模糊 */
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+    padding: 20px 30px !important;
+}
+
+/* 暗黑模式适配 */
+[data-theme="dark"] body.ui-glass #archive,
+[data-theme="dark"] body.ui-glass .article-sort {
+    background: rgba(30, 30, 30, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 确保时间轴内部的节点和文字背景是透明的 */
+body.ui-glass #archive .article-sort-item,
+body.ui-glass #archive .article-sort-item-info {
+    background: transparent !important;
+}
+/* =========================================
+   10. 归档页内部白块终极歼灭
+========================================= */
+/* 直接穿透到最内部，把年份区块和列表项的底全脱了 */
+body.ui-glass #archive .article-sort-item,
+body.ui-glass #archive .article-sort-item-info,
+body.ui-glass #archive .article-sort-year,
+body.ui-glass #archive .article-sort-title,
+body.ui-glass #archive .article-sort-item > div {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* 给相邻的文章之间加一条极细的虚线分隔，保持层级感 */
+body.ui-glass #archive .article-sort-item {
+    border-bottom: 1px dashed rgba(150, 150, 150, 0.2) !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 15px !important;
+}
+body.ui-glass #archive .article-sort-item:last-child {
+    border-bottom: none !important;
+}
+
+/* 鼠标悬停时，别让底层默认的白色背景弹出来 */
+body.ui-glass #archive .article-sort-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+}
+[data-theme="dark"] body.ui-glass #archive .article-sort-item:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+/* =========================================
+   11. 归档页内层白块终极爆破
+========================================= */
+/* 强制穿透归档页内部所有的 div 容器，扒掉它们的白底和阴影 */
+body.ui-glass #archive div {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* 既然去掉了白框，为了让年份更显眼，单独给年份文字加粗并调色 */
+body.ui-glass #archive .article-sort-title,
+body.ui-glass #archive .article-sort-year {
+    color: #333333 !important;
+    font-weight: bold !important;
+}
+[data-theme="dark"] body.ui-glass #archive .article-sort-title,
+[data-theme="dark"] body.ui-glass #archive .article-sort-year {
+    color: #d1d1d1 !important;
+}
+
+/* 重新把外层的整体毛玻璃加上（防止被上面的 div 穿透代码误伤） */
+body.ui-glass #archive {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+[data-theme="dark"] body.ui-glass #archive {
+    background: rgba(30, 30, 30, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+/* =========================================
+   12. 归档页双层玻璃终极修复
+========================================= */
+
+/* 强行脱掉内层容器的毛玻璃外衣，打破双层叠加 */
+body.ui-glass #archive .article-sort,
+body.ui-glass #archive .article-sort-item,
+body.ui-glass #archive .article-sort-title,
+body.ui-glass #archive .article-sort-year,
+body.ui-glass #archive .article-sort-item-info {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* 保留时间轴左侧的垂直连线，但让边框变淡 */
+body.ui-glass #archive .article-sort-item {
+    border-bottom: 1px dashed rgba(150, 150, 150, 0.2) !important;
+}
+
+/* 确保外层的毛玻璃完好无损（带圆角和内边距） */
+body.ui-glass #archive {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    padding: 20px 30px !important;
+}
+[data-theme="dark"] body.ui-glass #archive {
+    background: rgba(30, 30, 30, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+/* 优化排版，提升阅读高级感 */
+body {
+    /* 行高加大：1.8 是阅读长文的黄金比例 */
+    line-height: 1.8 !important;
+    /* 字色：千万别用纯黑，用深灰更有质感 */
+    color: #2c3e50 !important; 
+}
+[data-theme="dark"] body {
+    color: #c8d2dc !important; /* 暗黑模式下用浅灰 */
+}
+
+/* 段落间距 */
+#article-container p {
+    margin-bottom: 1.2rem !important;
+}
+
+/* 标题加粗，与正文拉开差距 */
+#article-container h1, 
+#article-container h2, 
+#article-container h3 {
+    font-weight: 600 !important; 
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* 英文和数字应用更好看的字重 */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 让友链在大屏幕上更宽敞 */
+@media screen and (min-width: 1200px) {
+  .flink-list {
+    gap: 20px !important;
+  }
+}
+
+/* =========================================
+   友链页面区域专属美化
+========================================= */
+
+/* 1. 给“博友们”（最后一个列表）加一个虚线边框背景，区分开来 */
+.flink-list:last-of-type {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    border: 1px dashed rgba(73, 177, 245, 0.4) !important;
+    margin-top: 30px;
+}
+
+[data-theme="dark"] .flink-list:last-of-type {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 分类标题前面加个小图标 */
+.flink-list h2::before {
+    content: "💫 ";
+    font-size: 1.2em;
+}
+
+/* =========================================
+   友链申请表单的毛玻璃 UI
+========================================= */
+#friend-link-form {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] #friend-link-form {
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#friend-link-form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#friend-link-form .form-group {
+    margin-bottom: 15px;
+}
+
+#friend-link-form input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+[data-theme="dark"] #friend-link-form input {
+    border: 1px solid #444;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+#friend-link-form input:focus {
+    outline: none;
+    border-color: #49B1F5;
+    box-shadow: 0 0 8px rgba(73, 177, 245, 0.3);
+}
+
+#friend-link-form #submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #49B1F5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#friend-link-form #submit-btn:hover {
+    background: #00c4b6;
+    transform: translateY(-2px);
+}
+
+/* 让 Giscus 的输入框也变成毛玻璃质感 */
+body.ui-glass #giscus-wrap iframe {
+    background: transparent !important;
+    /* 下面这两句是让 iframe 内部的白色背景变淡（某些浏览器支持） */
+    opacity: 0.9; 
+}
+
+/* 给评论框外层加个淡淡的底，防止文字看不清 */
+body.ui-glass .gsc-comment-box {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}

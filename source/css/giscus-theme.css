@@ -1,0 +1,31 @@
+/* =========================================
+   Giscus 自定义透明主题
+========================================= */
+main {
+    /* 主背景 */
+    --color-canvas-default: transparent !important;
+    /* 评论输入框背景 (给一点极弱的白色，保证输入区可见) */
+    --color-canvas-inset: rgba(255, 255, 255, 0.3) !important;
+    /* 评论主体背景 */
+    --color-canvas-subtle: transparent !important;
+    /* 叠加层背景 */
+    --color-canvas-overlay: rgba(255, 255, 255, 0.8) !important;
+    /* 边框颜色 */
+    --color-border-default: rgba(0, 0, 0, 0.1) !important;
+    --color-border-muted: rgba(0, 0, 0, 0.05) !important;
+    /* 字体颜色 */
+    --color-fg-default: #333333 !important;
+}
+
+/* 兼容深色模式的样式 */
+@media (prefers-color-scheme: dark) {
+    main {
+        --color-canvas-default: transparent !important;
+        --color-canvas-inset: rgba(0, 0, 0, 0.3) !important;
+        --color-canvas-subtle: transparent !important;
+        --color-canvas-overlay: rgba(30, 30, 30, 0.8) !important;
+        --color-border-default: rgba(255, 255, 255, 0.1) !important;
+        --color-border-muted: rgba(255, 255, 255, 0.05) !important;
+        --color-fg-default: #d1d1d1 !important;
+    }
+}

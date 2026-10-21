@@ -1,0 +1,19 @@
+- class_name: 我的站点
+  class_desc: 关于博主的一些足迹
+  link_list:
+    - name: LTY 的博客
+      link: https://lty04.dpdns.org
+      avatar: /img/111.jpg
+      descr: 记录技术与生活的数字花园
+    - name: GitHub 主页
+      link: https://github.com/lty-041010
+      avatar: https://github.com/favicon.ico
+      descr: 偶尔写点代码的开源仓库
+
+- class_name: 博友们
+  class_desc: 优秀且有趣的灵魂，欢迎互换友链
+  link_list:
+    - name: 某某的博客
+      link: https://example.com
+      avatar: https://example.com/avatar.jpg
+      descr: 这是一个审核通过的示例站点

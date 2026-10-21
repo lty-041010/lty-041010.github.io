@@ -1,0 +1,170 @@
+- const { effect, source, sub, typed_option } = theme.subtitle
+- let subContent = typeof sub === 'string' ? [sub] : (sub || new Array())
+
+script.
+  window.typedJSFn = {
+    init: str => {
+      window.typed = new Typed('#subtitle', Object.assign({
+        strings: str,
+        startDelay: 300,
+        typeSpeed: 150,
+        loop: true,
+        backSpeed: 50,
+      }, !{JSON.stringify(typed_option)}))
+    },
+    run: subtitleType => {
+      if (!{effect}) {
+        if (typeof Typed === 'function') {
+          subtitleType()
+        } else {
+          btf.getScript('!{url_for(theme.asset.typed)}').then(subtitleType)
+        }
+      } else {
+        subtitleType()
+      }
+    },
+    processSubtitle: (content, extraContents = []) => {
+      if (!{effect}) {
+        const sub = !{JSON.stringify(subContent)}.slice()
+        if (extraContents.length > 0) sub.unshift(...extraContents)
+        if (typeof content === 'string') {
+          sub.unshift(content)
+        } else if (Array.isArray(content)) {
+          sub.unshift(...content)
+        }
+        sub.length > 0 && typedJSFn.init(sub)
+      } else {
+        document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+          (Array.isArray(content) && content.length > 0 ? content[0] : '')
+      }
+    }
+  }
+  btf.addGlobalFn('pjaxSendOnce', () => { typed && typed.destroy() }, 'typedDestroy')
+
+case source
+  when 1
+    script.
+      let hitokotoTyped = null;
+      let localQuotes = []; // 存放加载的本地数据
+      let lastIndex = -1;   // 记录上一次抽取的索引，防止连续重复
+
+      // 格式化文本（带换行和出处）
+      function formatHitokoto(data) {
+        const from = data.from ? '—— ' + data.from : '';
+        return from ? data.hitokoto + '<br><span style="font-size: 0.8em; opacity: 0.8;">' + from + '</span>' : data.hitokoto;
+      }
+
+      // 从本地 JSON 随机获取一条
+      function getLocalRandomQuote() {
+        if (!localQuotes || localQuotes.length === 0) {
+          return { hitokoto: '请检查本地 hitokoto.json 文件是否存在', from: '系统提示' };
+        }
+
+        let randomIndex = Math.floor(Math.random() * localQuotes.length);
+        
+        // 如果有多条数据，且抽到了和上次一样的，重新抽一次
+        if (localQuotes.length > 1) {
+          while (randomIndex === lastIndex) {
+            randomIndex = Math.floor(Math.random() * localQuotes.length);
+          }
+        }
+        
+        lastIndex = randomIndex;
+        return localQuotes[randomIndex];
+      }
+
+      // 启动打字机
+      function startTyped() {
+        if (hitokotoTyped) {
+          hitokotoTyped.destroy();
+        }
+
+        const currentData = getLocalRandomQuote();
+        const initialText = formatHitokoto(currentData);
+
+        hitokotoTyped = new Typed('#subtitle', Object.assign({
+          strings: [initialText],
+          startDelay: 300,
+          typeSpeed: 150,
+          backSpeed: 50,
+          loop: true, 
+          onComplete: function(self) {
+            // 打完字准备退格时，无缝加载下一条本地的数据
+            const nextData = getLocalRandomQuote();
+            self.strings = [formatHitokoto(nextData)];
+          }
+        }, !{JSON.stringify(typed_option)}));
+      }
+
+      // 初始化：请求本地的 json 文件
+      function initHitokoto() {
+        // 请求你刚才在 source/data/ 下新建的文件
+        fetch('/data/hitokoto.json')
+          .then(res => res.json())
+          .then(data => {
+            localQuotes = data;
+            startTyped();
+          })
+          .catch(err => {
+            console.error('读取本地一言库失败:', err);
+            // 如果读取失败（比如路径不对），显示兜底
+            localQuotes = [{ hitokoto: '未能加载本地语库', from: '检查 /source/data/hitokoto.json' }];
+            startTyped();
+          });
+      }
+
+      // 检查 Typed 库并启动
+      if (typeof Typed === 'function') {
+        initHitokoto();
+      } else {
+        btf.getScript('!{url_for(theme.asset.typed)}').then(initHitokoto);
+      }
+
+  when 2
+    script.
+      function subtitleType () {
+        fetch('https://v.api.aa1.cn/api/yiyan/index.php')
+          .then(response => response.text())
+          .then(data => {
+            const reg = /<p>(.*?)<\/p>/g
+            const result = reg.exec(data)
+            if (result && result[1]) {
+              typedJSFn.processSubtitle(result[1])
+            } else {
+              throw new Error('Failed to parse the return value of the Yiyan API')
+            }
+          })
+          .catch(err => {
+            console.error('Failed to get the Yiyan API:', err)
+            typedJSFn.processSubtitle(!{JSON.stringify(subContent)})
+          })
+      }
+      typedJSFn.run(subtitleType)
+
+  when 3
+    script.
+      function subtitleType () {
+        btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+          .then(() => {
+            jinrishici.load(result => {
+              if (result && result.data && result.data.content) {
+                typedJSFn.processSubtitle(result.data.content)
+              } else {
+                throw new Error('Failed to parse the return value of Jinrishici API')
+              }
+            })
+          })
+          .catch(err => {
+            console.error('Failed to get the Jinrishici API:', err)
+            typedJSFn.processSubtitle(!{JSON.stringify(subContent)})
+          })
+      }
+      typedJSFn.run(subtitleType)
+
+  default
+    if subContent.length > 0
+      script.
+        function subtitleType () {
+          typedJSFn.processSubtitle(!{JSON.stringify(subContent)})
+        }
+        typedJSFn.run(subtitleType)

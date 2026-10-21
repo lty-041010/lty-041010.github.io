@@ -1,0 +1,500 @@
+# --------------------------------------
+# Hexo Butterfly 主题配置
+# 极简高级版（完美 UI 切换，无底层冲突）
+# --------------------------------------
+
+# --------------------------------------
+# 导航设置
+# --------------------------------------
+nav:
+  logo:
+  display_title: true
+  display_post_title: true
+  fixed: false # 往下滑动时导航栏是否固定
+
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  友链: /link/ || fas fa-link
+  留言板: /message/ || fas fa-comment-dots
+  关于: /about/ || fas fa-user
+
+# --------------------------------------
+# 代码块设置
+# --------------------------------------
+code_blocks:
+  theme: light
+  macStyle: false
+  height_limit: false
+  word_wrap: false
+  copy: true
+  language: true
+  shrink: false
+  fullpage: false
+
+# 社交媒体链接
+social:
+  # fab fa-github: https://github.com/lty-041010 || Github || '#24292e'
+  # fas fa-envelope: mailto:1373422192@qq.com || Email || '#4a7dbe'
+
+# --------------------------------------
+# 图片设置
+# --------------------------------------
+favicon: /img/111.jpg
+
+avatar:
+  img: /img/111.jpg
+  effect: false
+
+disable_top_img: false
+default_top_img:
+index_img:
+archive_img:
+tag_img:
+category_img:
+footer_img: false
+background:
+
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover:
+    - https://uapis.cn/api/v1/random/image?category=landscape
+    - https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop
+    - https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop
+
+error_img:
+  flink: /img/friend_404.gif
+  post_page: /img/404.jpg
+
+error_404:
+  enable: false
+  subtitle: '页面未找到'
+  background: /img/error-page.png
+
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+    label: true
+  post:
+    position: left
+    date_type: both
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+
+# --------------------------------------
+# 首页设置
+# --------------------------------------
+index_site_info_top:
+index_top_img_height: 100vh
+
+# 首页副标题（保留打字机效果）
+subtitle:
+  enable: true
+  effect: true
+  typed_option:
+    typeSpeed: 100
+    backSpeed: 50
+    backDelay: 2000
+  source: 1
+  sub:
+
+# 首页文章布局 (3: 左右交替)
+index_layout: 3
+
+index_post_content:
+  method: 3
+  length: 500
+
+# --------------------------------------
+# 文章设置
+# --------------------------------------
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+  scroll_percent: true
+
+post_copyright:
+  enable: true
+  decode: false
+  author_href:
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+reward:
+  enable: false
+  text:
+  QR_code:
+
+post_edit:
+  enable: false
+  url:
+
+related_post:
+  enable: true
+  limit: 6
+  date_type: created
+
+post_pagination: 1
+
+noticeOutdate:
+  enable: false
+  style: flat
+  limit_day: 365
+  position: top
+
+# --------------------------------------
+# 页脚设置
+# --------------------------------------
+footer:
+  nav:
+  owner:
+    enable: true
+    since: 
+  copyright:
+    enable: true
+    version: true
+  custom_text:
+
+# --------------------------------------
+# 侧边栏设置
+# --------------------------------------
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  display:
+    archive: true
+    tag: true
+    category: true
+  card_author:
+    enable: true
+    description:
+    button:
+      enable: true
+      icon: fab fa-github
+      text: GitHub 主页
+      link: https://github.com/lty-041010
+  card_announcement:
+    enable: true
+    content: 欢迎来到我的博客
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+  card_newest_comments:
+    enable: false
+  card_categories:
+    enable: true
+    limit: 8
+    expand: none
+  card_tags:
+    enable: true
+    limit: 40
+    color: false
+    orderby: random
+    order: 1
+  card_archives:
+    enable: true
+    type: monthly
+    format: MMMM YYYY
+    order: -1
+    limit: 8
+  card_post_series:
+    enable: false
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    # 如果你想调整顺序，可以在下面这行把 wordcount 放进 hide 或 show 里，但不写默认全显示
+    sort_order:
+    runtime_date: 10/19/2026 00:00:00
+
+# --------------------------------------
+# 右下角按钮与模式
+# --------------------------------------
+rightside_bottom: 100px
+translate:
+  enable: false
+readmode: true
+
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: false
+
+rightside_scroll_percent: false
+rightside_item_order:
+  enable: false
+rightside_config_animation: true
+
+# --------------------------------------
+# 全局设置
+# --------------------------------------
+anchor:
+  auto_update: false
+  click_to_scroll: false
+
+photofigcaption: false
+
+copy:
+  enable: true
+  copyright:
+    enable: false
+
+# 需要安装 hexo-wordcount 插件
+wordcount:
+  enable: true
+  # 在文章 meta 中显示文章字数 (文章页可见)
+  post_wordcount: true
+  # 在文章 meta 中显示阅读时间 (文章页可见)
+  min2read: true
+  # 在侧边栏的 webinfo 中显示网站总字数
+  total_wordcount: false
+
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false
+
+# --------------------------------------
+# 数学公式与搜索
+# --------------------------------------
+math:
+  use:
+  per_page: true
+  hide_scrollbar: false
+
+search:
+  use:
+  placeholder:
+
+# --------------------------------------
+# 分享与评论系统 (Giscus 预留)
+# --------------------------------------
+share:
+  use: 
+
+comments:
+  use: Giscus
+  text: true
+  lazyload: false
+  count: false
+  card_post_count: false
+
+giscus:
+  repo: lty-041010/lty-041010.github.io
+  repo_id: R_kgDOVP0sGg
+  category: Comments
+  category_id: DIC_kwDOVP0sGs4DJH_W
+  light_theme: https://lty04.dpdns.org/css/giscus-theme.css
+  dark_theme: https://lty04.dpdns.org/css/giscus-theme.css  
+  js: https://giscus.app/client.js
+  lang: zh-CN
+  option:
+    
+
+# --------------------------------------
+# 聊天、统计、广告、验证（保持关闭）
+# --------------------------------------
+chat:
+  use:
+
+baidu_analytics:
+google_analytics:
+cloudflare_analytics:
+
+google_adsense:
+  enable: false
+
+site_verification:
+
+# --------------------------------------
+# 美化 / 效果
+# --------------------------------------
+category_ui:
+tag_ui:
+
+rounded_corners_ui: true
+text_align_justify: false
+
+mask:
+  header: true
+  footer: true
+
+preloader:
+  enable: false
+
+enter_transitions: true
+display_mode: light
+
+beautify:
+  enable: false
+
+font:
+  global_font_size: 16px
+  code_font_size: 14px
+  # 注意：引号嵌套，英文在前，中文在后，最后加无衬线兜底
+  font_family: 'Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+  code_font_family: '"JetBrains Mono", "Fira Code", Consolas, monospace'
+
+blog_title_font:
+  font_link:
+  font_family:
+
+hr_icon:
+  enable: true
+
+# ========== 特效基础配置（全部彻底关闭，保持最纯粹的阅读体验） ==========
+activate_power_mode:
+  enable: false
+
+canvas_ribbon:
+  enable: false
+
+canvas_fluttering_ribbon:
+  enable: false
+
+canvas_nest:
+  enable: false
+
+fireworks:
+  enable: false
+
+click_heart:
+  enable: false
+
+clickShowText:
+  enable: false
+  text:
+    - 富强
+  fontSize: 20px
+  random: true
+  mobile: false
+
+lightbox:
+
+# --------------------------------------
+# 标签插件设置
+# --------------------------------------
+series:
+  enable: false
+
+abcjs:
+  enable: false
+
+mermaid:
+  enable: false
+
+chartjs:
+  enable: false
+
+note:
+  style: flat
+  icons: true
+  border_radius: 3
+  light_bg_offset: 0
+
+# --------------------------------------
+# 其他设置
+# --------------------------------------
+pjax:
+  enable: false
+
+snackbar:
+  enable: false
+  position: bottom-left
+
+instantpage: false
+
+lazyload:
+  enable: false
+  native: false
+  field: site
+  placeholder:
+  blur: false
+
+pwa:
+  enable: false
+
+Open_Graph_meta:
+  enable: true
+
+structured_data:
+  enable: false
+
+css_prefix: true
+
+# --------------------------------------
+# 注入（纯净版：只保留随机图与 UI 风格切换）
+# --------------------------------------
+# --------------------------------------
+# 注入（引入字体 + 随机图脚本）
+# --------------------------------------
+inject:
+  head:
+    # ★ 引入极速镜像字体 (Inter + 思源黑体 + JetBrains Mono) ★
+    - <link rel="preconnect" href="https://fonts.loli.net">
+    - <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+    - <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    - <link rel="stylesheet" href="/css/custom.css">
+  bottom:
+    - |
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var isMobile = window.innerWidth <= 768;
+            
+            var apiPool = isMobile 
+                ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile", "https://t.alcy.cc/mp"]
+                : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k", "https://api.dujin.org/bing/1920.php", "https://t.alcy.cc/pc"];
+                
+            var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
+            var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
+            var finalUrl = randomApi.includes("bing") ? randomApi : randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+
+            var imgTester = new Image();
+            imgTester.src = finalUrl;
+            
+            imgTester.onload = function() {
+                document.documentElement.style.setProperty('--bg-img', `url('${finalUrl}')`);
+                document.body.classList.add('bg-random-image');
+            };
+            
+            imgTester.onerror = function() {
+                document.documentElement.style.setProperty('--bg-img', `url('${fallbackImg}')`);
+                document.body.classList.add('bg-random-image');
+            };
+
+            document.body.classList.add('ui-glass');
+
+            var covers = document.querySelectorAll(".post-bg");
+            covers.forEach(function (cover) {
+              var coverUrl = randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
+              cover.style.backgroundImage = "url('" + coverUrl + "')";
+            });
+        });
+      </script>
+      
+
+# --------------------------------------
+# CDN 设置
+# --------------------------------------
+CDN:
+  internal_provider: local
+  third_party_provider: unpkg
+  version: true
+  custom_format:
+  option:

@@ -1,0 +1,7 @@
+packages:
+  - '.'
+shamefullyHoist: true
+
+allowBuilds:
+  hexo-util: true
+
