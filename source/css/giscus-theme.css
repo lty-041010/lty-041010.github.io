@@ -1,0 +1,34 @@
+/* =========================================
+   Giscus 自定义透明毛玻璃主题
+   ========================================= */
+main {
+    /* 1. 主背景透明，漏出底下的毛玻璃 */
+    --color-canvas-default: transparent !important;
+    
+    /* 2. 评论输入框背景（给一点极弱的半透明白，保证能看清输入的字） */
+    --color-canvas-inset: rgba(255, 255, 255, 0.2) !important;
+    
+    /* 3. 其它区域透明化 */
+    --color-canvas-subtle: transparent !important;
+    --color-canvas-overlay: rgba(255, 255, 255, 0.8) !important;
+    
+    /* 4. 边框颜色变淡 */
+    --color-border-default: rgba(0, 0, 0, 0.1) !important;
+    --color-border-muted: rgba(0, 0, 0, 0.05) !important;
+    
+    /* 5. 文字颜色 */
+    --color-fg-default: #333333 !important;
+}
+
+/* 兼容深色模式的透明样式 */
+@media (prefers-color-scheme: dark) {
+    main {
+        --color-canvas-default: transparent !important;
+        --color-canvas-inset: rgba(0, 0, 0, 0.2) !important;
+        --color-canvas-subtle: transparent !important;
+        --color-canvas-overlay: rgba(30, 30, 30, 0.8) !important;
+        --color-border-default: rgba(255, 255, 255, 0.1) !important;
+        --color-border-muted: rgba(255, 255, 255, 0.05) !important;
+        --color-fg-default: #d1d1d1 !important;
+    }
+}
