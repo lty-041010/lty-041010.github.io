@@ -300,12 +300,14 @@ giscus:
   repo_id: R_kgDOVP0sGg
   category: Comments
   category_id: DIC_kwDOVP0sGs4DJH_W
-  light_theme: https://cdn.jsdelivr.net/gh/lty-041010/lty-041010.github.io@main/source/css/giscus-theme.css
-  dark_theme: https://cdn.jsdelivr.net/gh/lty-041010/lty-041010.github.io@main/source/css/giscus-theme.css
+  # ★ 改用你自己的域名，分别指向亮色和暗色文件
+  light_theme: https://lty04.dpdns.org/css/giscus-light.css
+  dark_theme: https://lty04.dpdns.org/css/giscus-dark.css
   js: https://giscus.app/client.js
   lang: zh-CN
   option:
-  
+
+
 # --------------------------------------
 # 聊天、统计、广告、验证（保持关闭）
 # --------------------------------------
