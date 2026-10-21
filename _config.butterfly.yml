@@ -14,9 +14,11 @@ nav:
 
 menu:
   首页: / || fas fa-home
-  归档: /archives/ || fas fa-archive
-  标签: /tags/ || fas fa-tags
-  分类: /categories/ || fas fa-folder-open
+  漫游: /nav/ || fas fa-bars
+  文章||fas fa-book:
+    归档: /archives/ || fas fa-archive
+    标签: /tags/ || fas fa-tags
+    分类: /categories/ || fas fa-folder-open
   友链: /link/ || fas fa-link
   留言板: /message/ || fas fa-comment-dots
   关于: /about/ || fas fa-user
@@ -161,12 +163,14 @@ footer:
   nav:
   owner:
     enable: true
-    since: 
+    since: 2026 # ★ 改成 2026，页面就只会显示 © 2026 By LTY
   copyright:
     enable: true
-    version: true
-  custom_text:
+    version: false
+  custom_text: 
+    - 🌙 保持热爱，奔赴山海。 
 
+    
 # --------------------------------------
 # 侧边栏设置
 # --------------------------------------
@@ -439,11 +443,9 @@ structured_data:
 
 css_prefix: true
 
+
 # --------------------------------------
-# 注入（纯净版：只保留随机图与 UI 风格切换）
-# --------------------------------------
-# --------------------------------------
-# 注入（引入字体 + 随机图脚本）
+# 注入（引入字体 + 防崩溃随机图 + 友链悬浮窗）
 # --------------------------------------
 inject:
   head:
@@ -456,98 +458,153 @@ inject:
     - |
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 动态背景
+            // ================= 1. 防崩溃的多端动态背景 =================
             var isMobile = window.innerWidth <= 768;
-            var apiPool = isMobile ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile"] : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k"];
+            var isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+            
+            var apiPool = isMobile 
+                ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile", "https://t.alcy.cc/mp"]
+                : (isTablet ? ["https://uapis.cn/api/v1/random/image?category=landscape", "https://t.alcy.cc/pc"] 
+                            : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k", "https://api.dujin.org/bing/1920.php"]);
+                
+            var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
             var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
-            var finalUrl = randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
-            document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
-            document.body.classList.add('bg-random-image');
+            var finalUrl = randomApi.includes("bing") ? randomApi : randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+
+            // 预加载图片，成功才应用，失败用兜底图（彻底解决崩溃问题）
+            var imgTester = new Image();
+            imgTester.src = finalUrl;
+            
+            imgTester.onload = function() {
+                document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
+                document.body.classList.add('bg-random-image');
+            };
+            
+            imgTester.onerror = function() {
+                document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
+                document.body.classList.add('bg-random-image');
+            };
+
             document.body.classList.add('ui-glass');
 
-            // 2. 友链高级悬浮预览 (原生 DOM 构建版，无任何 innerHTML)
-            setTimeout(function() {
-                const flinkItems = document.querySelectorAll('.flink-list-item');
-                if(flinkItems.length === 0) return;
+            // ================= 2. 文章封面多端适配 =================
+            var covers = document.querySelectorAll(".post-bg");
+            covers.forEach(function (cover) {
+                var coverApi = isMobile ? "https://uapis.cn/api/v1/random/image?category=landscape" : randomApi;
+                var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
+                cover.style.backgroundImage = "url('" + coverUrl + "')";
+            });
 
-                // 创建全局小窗容器
-                const popover = document.createElement('div');
-                popover.id = 'global-flink-popover';
-                
-                // 创建内部节点
-                const avatarEl = document.createElement('img');
-                avatarEl.className = 'preview-avatar';
-                
-                const nameEl = document.createElement('div');
-                nameEl.className = 'preview-name';
-                
-                const descrEl = document.createElement('div');
-                descrEl.className = 'preview-descr';
+                    // ================= 3. 全局悬浮预览 (智能区分友链与漫游) =================
+        setTimeout(function() {
+            // 同时抓取友链卡片和漫游卡片
+            const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
+            if(targetItems.length === 0) return;
 
-                // 组装
-                popover.appendChild(avatarEl);
-                popover.appendChild(nameEl);
-                popover.appendChild(descrEl);
-                document.body.appendChild(popover);
+            const popover = document.createElement('div');
+            popover.id = 'global-flink-popover';
+            
+            // 创建两种头像显示方式：图片 和 Emoji文本
+            const avatarImgEl = document.createElement('img');
+            avatarImgEl.className = 'preview-avatar';
+            
+            const avatarEmojiEl = document.createElement('div');
+            avatarEmojiEl.className = 'preview-avatar-emoji';
+            
+            const nameEl = document.createElement('div');
+            nameEl.className = 'preview-name';
+            
+            const descrEl = document.createElement('div');
+            descrEl.className = 'preview-descr';
 
-                flinkItems.forEach(item => {
+            popover.appendChild(avatarImgEl);
+            popover.appendChild(avatarEmojiEl);
+            popover.appendChild(nameEl);
+            popover.appendChild(descrEl);
+            document.body.appendChild(popover);
+
+            targetItems.forEach(item => {
+                let name = '';
+                let descr = '';
+                let avatarSrc = '';
+                let isEmoji = false;
+
+                // 1. 如果是友链卡片
+                if (item.classList.contains('flink-list-item')) {
                     const img = item.querySelector('img');
                     const itemNameEl = item.querySelector('.flink-item-name');
                     const itemDescrEl = item.querySelector('.flink-item-desc');
                     
-                    const name = itemNameEl ? itemNameEl.innerText.trim() : '神秘站点';
-                    const descr = itemDescrEl ? itemDescrEl.innerText.trim() : '这个人很懒，什么都没留下';
+                    name = itemNameEl ? itemNameEl.innerText.trim() : '神秘站点';
+                    descr = itemDescrEl ? itemDescrEl.innerText.trim() : '这个人很懒，什么都没留下';
                     
-                    // 自动生成兜底头像
-                    let avatarSrc = '';
                     if (img && img.src && !img.src.includes('data:image')) {
                         avatarSrc = img.src;
                     } else {
+                        // 只有友链没图时，才用 DiceBear 兜底
                         avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
-                        if (img) img.src = avatarSrc; // 替换卡片里的图片
+                        if (img) img.src = avatarSrc; 
+                    }
+                    isEmoji = false;
+                } 
+                // 2. 如果是漫游卡片
+                else if (item.classList.contains('nav-card')) {
+                    const itemNameEl = item.querySelector('.nav-title');
+                    const itemDescrEl = item.querySelector('.nav-desc');
+                    const iconEl = item.querySelector('.nav-icon');
+                    
+                    name = itemNameEl ? itemNameEl.innerText.trim() : '常用网站';
+                    descr = itemDescrEl ? itemDescrEl.innerText.trim() : '暂无描述';
+                    // 直接抓取 Emoji 图标
+                    avatarSrc = iconEl ? iconEl.innerText.trim() : '🔗'; 
+                    isEmoji = true;
+                }
+
+                // 鼠标移入
+                item.addEventListener('mouseenter', function(e) {
+                    nameEl.innerText = name;
+                    descrEl.innerText = descr;
+                    
+                    // 动态切换头像显示方式
+                    if (isEmoji) {
+                        avatarImgEl.style.display = 'none';
+                        avatarEmojiEl.innerText = avatarSrc;
+                        avatarEmojiEl.style.display = 'flex';
+                    } else {
+                        avatarEmojiEl.style.display = 'none';
+                        avatarImgEl.src = avatarSrc;
+                        avatarImgEl.style.display = 'block';
                     }
 
-                    // 鼠标移入
-                    item.addEventListener('mouseenter', function(e) {
-                        nameEl.innerText = name;
-                        descrEl.innerText = descr;
-                        avatarEl.src = avatarSrc;
-                        
-                        popover.style.opacity = '1';
-                        popover.style.visibility = 'visible';
-                        popover.style.transform = 'translateY(0) scale(1)';
-                    });
-
-                    // 鼠标移动跟随
-                    item.addEventListener('mousemove', function(e) {
-                        let x = e.clientX + 20;
-                        let y = e.clientY + 20;
-                        
-                        const popoverWidth = 260;
-                        const popoverHeight = 180; 
-                        
-                        if (x + popoverWidth > window.innerWidth) {
-                            x = e.clientX - popoverWidth - 20; // 右边超界放左边
-                        }
-                        if (y + popoverHeight > window.innerHeight) {
-                            y = e.clientY - popoverHeight - 20; // 下边超界放上边
-                        }
-
-                        popover.style.left = x + 'px';
-                        popover.style.top = y + 'px';
-                    });
-
-                    // 鼠标移出
-                    item.addEventListener('mouseleave', function() {
-                        popover.style.opacity = '0';
-                        popover.style.visibility = 'hidden';
-                        popover.style.transform = 'translateY(10px) scale(0.95)';
-                    });
+                    popover.style.opacity = '1';
+                    popover.style.visibility = 'visible';
+                    popover.style.transform = 'translateY(0) scale(1)';
                 });
-            }, 500);
+
+                // 鼠标移动跟随
+                item.addEventListener('mousemove', function(e) {
+                    let x = e.clientX + 20;
+                    let y = e.clientY + 20;
+                    const popoverWidth = 260;
+                    const popoverHeight = 180; 
+                    
+                    if (x + popoverWidth > window.innerWidth) x = e.clientX - popoverWidth - 20; 
+                    if (y + popoverHeight > window.innerHeight) y = e.clientY - popoverHeight - 20; 
+
+                    popover.style.left = x + 'px';
+                    popover.style.top = y + 'px';
+                });
+
+                // 鼠标移出
+                item.addEventListener('mouseleave', function() {
+                    popover.style.opacity = '0';
+                    popover.style.visibility = 'hidden';
+                    popover.style.transform = 'translateY(10px) scale(0.95)';
+                });
+            });
+        }, 500);
         });
       </script>
-      
 
 # --------------------------------------
 # CDN 设置
