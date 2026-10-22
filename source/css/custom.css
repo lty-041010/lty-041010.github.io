@@ -490,3 +490,39 @@ main .gsc-comment-author img::before {
 
     #global-flink-popover { display: none !important; }
 }
+
+/* =========================================
+   手机端终极背景优化：主体完整 + 模糊铺底
+========================================= */
+@media screen and (max-width: 768px) {
+    body.bg-random-image {
+        background-attachment: scroll !important; 
+        /* 留白部分用淡灰色打底 */
+        background-color: #f4f5f7 !important; 
+        
+        /* ★ 核心黑科技：两层背景叠加 ★ */
+        /* 第一层：原图完整居中显示 (contain) */
+        /* 第二层：同款图片放大铺满 (cover) 并加上毛玻璃滤镜 (blur) */
+        background-image: 
+            var(--bg-img), 
+            var(--bg-img) !important; 
+            
+        background-size: 
+            contain, /* 上层：完整显示 */
+            cover !important; /* 下层：铺满 */
+            
+        background-position: 
+            center center, /* 上层：居中 */
+            center center !important; /* 下层：居中 */
+            
+        background-repeat: no-repeat !important;
+        
+        /* 给底层的那张铺满图加一点透明度，让它成为漂亮的背景底 */
+        background-blend-mode: normal;
+    }
+    
+    /* 暗黑模式打底色 */
+    [data-theme="dark"] body.bg-random-image {
+        background-color: #161618 !important;
+    }
+}
