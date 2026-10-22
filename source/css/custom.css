@@ -418,8 +418,16 @@ main .gsc-comment-author img::before {
 }
 
 /* =========================================
-   多端深度适配 (Media Queries) - 终极纯净看全图版
+   7. 多端深度适配 (Media Queries) - 现代视差版
 ========================================= */
+
+/* 移动端专属：解决 100vh 被地址栏遮挡的问题 */
+@supports (height: 100dvh) {
+    #page-header.full_page {
+        height: 100dvh !important; 
+    }
+}
+
 @media screen and (max-width: 768px) {
     /* 1. 强制防溢出 */
     html, body, #body-wrap, #page, #content-inner, .layout {
@@ -427,42 +435,34 @@ main .gsc-comment-author img::before {
         max-width: 100vw !important;
         overflow-x: hidden !important;
     }
-    
-    /* 2. 修复顶部大图高度 */
-    #page-header.full_page {
-        height: 100vh !important; 
-    }
 
-    /* ★ 3. 纯净背景：只显示原图，绝不裁切，不留大白边 ★ */
+    /* 2. 终极黑科技：手机端视差背景 (绝对不卡顿、不闪烁) */
+    /* 我们用 ::before 伪元素来承载固定的背景图 */
     body.bg-random-image {
-        /* 留白部分使用高级的淡灰色（如果是暗黑模式就用黑色） */
-        background-color: #eef1f5 !important; 
-        
-        /* 图片完整居中显示，不裁切！ */
-        background-image: var(--bg-img) !important; 
-        background-size: contain !important; 
+        background-image: none !important; /* 去掉 body 原本的图 */
+    }
+    
+    body.bg-random-image::before {
+        content: "" !important;
+        display: block !important;
+        position: fixed !important; /* 固定不动 */
+        top: 0; left: 0; 
+        width: 100vw; height: 100vh;
+        z-index: -1 !important;
+        /* 底层图加一层半透明遮罩，让字更清晰 */
+        background-image: linear-gradient(rgba(244, 245, 247, 0.65), rgba(244, 245, 247, 0.65)), var(--bg-img) !important;
+        background-size: cover !important; /* 铺满全屏 */
         background-position: center center !important;
         background-repeat: no-repeat !important;
-        background-attachment: scroll !important; 
-    }
-    
-    /* 彻底干掉所有会导致模糊的伪元素 */
-    body.bg-random-image::before {
-        display: none !important;
-    }
-    
-    [data-theme="dark"] body.bg-random-image { 
-        background-color: #121212 !important; 
+        pointer-events: none !important;
     }
 
-    /* 4. 防止长链接撑破屏幕 */
-    #article-container pre, #article-container a, #article-container code, p {
-        white-space: pre-wrap !important; 
-        word-break: break-all !important;
-        max-width: 100% !important;
+    /* 暗黑模式的底层遮罩 */
+    [data-theme="dark"] body.bg-random-image::before {
+        background-image: linear-gradient(rgba(22, 22, 24, 0.75), rgba(22, 22, 24, 0.75)), var(--bg-img) !important;
     }
 
-    /* 5. 卡片与交互优化 */
+    /* 3. 卡片与交互优化 (毛玻璃盖在背景上) */
     body.ui-glass .recent-post-item, 
     body.ui-glass .card-widget,
     body.ui-glass #page,
@@ -497,13 +497,21 @@ main .gsc-comment-author img::before {
         padding: 15px 10px !important;
     }
 
+    /* 4. 漫游页与标题流式排版 (使用 clamp 让字体自动缩放) */
     .nav-header-box { padding: 20px 15px; margin-bottom: 20px; }
-    .nav-header-box h1 { font-size: 1.5rem; }
-    .nav-section-title { font-size: 1.1rem; margin: 20px 0 10px 0 !important; }
-    .nav-grid { grid-template-columns: 1fr; gap: 12px; }
+    .nav-header-box h1 { font-size: clamp(1.5rem, 5vw, 2rem) !important; }
+    .nav-section-title { font-size: clamp(1.1rem, 4vw, 1.2rem); margin: 20px 0 10px 0 !important; }
+    .nav-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 12px; }
     .nav-card { padding: 15px; }
     .nav-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.6) !important; }
     .nav-icon { min-width: 40px; height: 40px; font-size: 22px; border-radius: 10px; }
+
+    /* 5. 防止长链接撑破屏幕 */
+    #article-container pre, #article-container a, #article-container code, p {
+        white-space: pre-wrap !important; 
+        word-break: break-all !important;
+        max-width: 100% !important;
+    }
 
     #global-flink-popover { display: none !important; }
 }
