@@ -517,37 +517,61 @@ main .gsc-comment-author img::before {
 }
 
 /* =========================================
-   修复友链卡片高度截断问题
+   友链卡片终极修复版 (回归原生布局)
 ========================================= */
+
+/* 1. 恢复卡片背景、边框和圆角，高度自适应 */
 body.ui-glass .flink-list-item {
-    /* 强制高度自适应，绝不截断 */
-    height: auto !important;
-    min-height: 90px !important; 
-    overflow: visible !important;
-    
-    /* 确保内部元素垂直居中 */
-    display: flex !important;
-    align-items: center !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 12px !important;
+    /* 不要用 flex 布局，用原本的 block，让内部绝对定位生效 */
+    display: block !important; 
+    height: auto !important; 
+    min-height: 90px !important;
 }
 
-/* 确保头像不被压扁 */
-body.ui-glass .flink-list-item img {
+[data-theme="dark"] body.ui-glass .flink-list-item {
+    background: rgba(30, 30, 30, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 2. 修复头像尺寸，防止被拉长或压扁 */
+body.ui-glass .flink-list-item .img {
     width: 50px !important;
     height: 50px !important;
+    margin-left: 15px !important; /* 让头像离左边稍微远点 */
+}
+
+body.ui-glass .flink-list-item .img img {
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover !important;
     border-radius: 50% !important;
-    margin-right: 15px !important;
 }
 
-/* 确保文字信息区域正常排版 */
-body.ui-glass .flink-list-item .flink-item-info {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    height: 100% !important;
+/* 3. 修复文字被截断，并限制文字宽度 */
+body.ui-glass .flink-list-item .info {
+    padding-left: 70px !important; /* 给头像留出空间 */
+    padding-right: 15px !important;
 }
 
-/* 顺便把网格的间距稍微拉大一点，防止卡片挤在一起 */
+body.ui-glass .flink-list-item .info .title {
+    font-size: 1.1em !important;
+    margin-bottom: 5px !important;
+}
+
+body.ui-glass .flink-list-item .info .desc {
+    font-size: 0.85em !important;
+    line-height: 1.4 !important;
+    /* 如果文字太长，强制省略号 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 4. 调整网格间距，防止卡片互相挤压 */
 .flink-list {
     gap: 15px !important;
 }
