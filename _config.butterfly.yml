@@ -468,15 +468,20 @@ inject:
                 isMobile = true;
             }
             
-            // ================= 2. 极度稳定的多端图池 =================
+            // ================= 2. 随机图片 API 池 =================
             var apiPool;
             if (isMobile) {
+                // ★ 换了这批顶级图源，比例更贴合手机，画质极高 ★
                 apiPool = [
-                    "https://bing.biturl.top/?resolution=1080x1920&format=image",
-                    "https://api.yppp.net/pe.php", 
-                    "https://imgapi.siiway.top/image/v"
+                    // 1. 随机风景壁纸（纯净无广告，带比例参数）
+                    "https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=images",
+                    // 2. 随机动漫壁纸（非常经典的高清图库）
+                    "https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images",
+                    // 3. 必应每日壁纸（虽然是横图，但构图通常居中，裁切后也很好看）
+                    "https://bing.biturl.top/?resolution=1080x1920&format=image"
                 ];
             } else {
+                // PC 端保持不变
                 apiPool = [
                     "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
                     "https://api.dujin.org/bing/1920.php",
@@ -626,7 +631,7 @@ inject:
         });
       </script>
 
-      
+
 # --------------------------------------
 # CDN 设置
 # --------------------------------------

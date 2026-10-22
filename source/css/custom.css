@@ -432,13 +432,15 @@ main .gsc-comment-author img::before {
 
 /* --- 手机端 --- */
 @media screen and (max-width: 768px) {
-    /* 1. 手机端背景图自适应方案 */
     body.bg-random-image {
         background-attachment: scroll !important; 
-        background-image: linear-gradient(rgba(244, 245, 247, 0.65), rgba(244, 245, 247, 0.65)), var(--bg-img) !important;
-        background-size: cover !important;
-        background-position: center center !important;
+        /* 改回 cover 铺满全屏 */
+        background-size: cover !important; 
+        background-repeat: no-repeat !important; 
+        /* 强制居中，这样即使裁切，也是裁两边，保留中间主体 */
+        background-position: center center !important; 
     }
+}
     [data-theme="dark"] body.bg-random-image {
         background-image: linear-gradient(rgba(22, 22, 24, 0.75), rgba(22, 22, 24, 0.75)), var(--bg-img) !important;
     }
