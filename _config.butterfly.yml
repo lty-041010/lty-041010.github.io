@@ -458,14 +458,25 @@ inject:
     - |
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ================= 1. 防崩溃的多端动态背景 =================
-            var isMobile = window.innerWidth <= 768;
-            var isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+            // ================= 1. 防崩溃的多端动态背景 (真·手机竖屏版) =================
+            // 加入 UA 检测，防止折叠屏或横屏手机被误判
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
             
-            var apiPool = isMobile 
-                ? ["https://uapis.cn/api/v1/random/image?category=landscape&type=mobile", "https://t.alcy.cc/mp"]
-                : (isTablet ? ["https://uapis.cn/api/v1/random/image?category=landscape", "https://t.alcy.cc/pc"] 
-                            : ["https://uapis.cn/api/v1/random/image?category=landscape&type=4k", "https://api.dujin.org/bing/1920.php"]);
+            var apiPool;
+            if (isMobile) {
+                // ★ 手机端：使用真正返回竖屏/高比例图的接口 ★
+                apiPool = [
+                    "https://t.alcy.cc/mp", // 专门用于手机端的二次元/风景图
+                    "https://api.dujin.org/bing/1080.php" // 必应 1080p 手机竖屏版
+                ];
+            } else {
+                // PC 端和 iPad 端
+                apiPool = [
+                    "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
+                    "https://api.dujin.org/bing/1920.php",
+                    "https://t.alcy.cc/pc"
+                ];
+            }
                 
             var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
             var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
@@ -490,119 +501,119 @@ inject:
             // ================= 2. 文章封面多端适配 =================
             var covers = document.querySelectorAll(".post-bg");
             covers.forEach(function (cover) {
-                var coverApi = isMobile ? "https://uapis.cn/api/v1/random/image?category=landscape" : randomApi;
+                var coverApi = isMobile ? "https://t.alcy.cc/mp" : randomApi;
                 var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
                 cover.style.backgroundImage = "url('" + coverUrl + "')";
             });
 
-                    // ================= 3. 全局悬浮预览 (智能区分友链与漫游) =================
-        setTimeout(function() {
-            // 同时抓取友链卡片和漫游卡片
-            const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
-            if(targetItems.length === 0) return;
+            // ================= 3. 全局悬浮预览 (智能区分友链与漫游) =================
+            setTimeout(function() {
+                // 同时抓取友链卡片和漫游卡片
+                const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
+                if(targetItems.length === 0) return;
 
-            const popover = document.createElement('div');
-            popover.id = 'global-flink-popover';
-            
-            // 创建两种头像显示方式：图片 和 Emoji文本
-            const avatarImgEl = document.createElement('img');
-            avatarImgEl.className = 'preview-avatar';
-            
-            const avatarEmojiEl = document.createElement('div');
-            avatarEmojiEl.className = 'preview-avatar-emoji';
-            
-            const nameEl = document.createElement('div');
-            nameEl.className = 'preview-name';
-            
-            const descrEl = document.createElement('div');
-            descrEl.className = 'preview-descr';
+                const popover = document.createElement('div');
+                popover.id = 'global-flink-popover';
+                
+                // 创建两种头像显示方式：图片 和 Emoji文本
+                const avatarImgEl = document.createElement('img');
+                avatarImgEl.className = 'preview-avatar';
+                
+                const avatarEmojiEl = document.createElement('div');
+                avatarEmojiEl.className = 'preview-avatar-emoji';
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'preview-name';
+                
+                const descrEl = document.createElement('div');
+                descrEl.className = 'preview-descr';
 
-            popover.appendChild(avatarImgEl);
-            popover.appendChild(avatarEmojiEl);
-            popover.appendChild(nameEl);
-            popover.appendChild(descrEl);
-            document.body.appendChild(popover);
+                popover.appendChild(avatarImgEl);
+                popover.appendChild(avatarEmojiEl);
+                popover.appendChild(nameEl);
+                popover.appendChild(descrEl);
+                document.body.appendChild(popover);
 
-            targetItems.forEach(item => {
-                let name = '';
-                let descr = '';
-                let avatarSrc = '';
-                let isEmoji = false;
+                targetItems.forEach(item => {
+                    let name = '';
+                    let descr = '';
+                    let avatarSrc = '';
+                    let isEmoji = false;
 
-                // 1. 如果是友链卡片
-                if (item.classList.contains('flink-list-item')) {
-                    const img = item.querySelector('img');
-                    const itemNameEl = item.querySelector('.flink-item-name');
-                    const itemDescrEl = item.querySelector('.flink-item-desc');
-                    
-                    name = itemNameEl ? itemNameEl.innerText.trim() : '神秘站点';
-                    descr = itemDescrEl ? itemDescrEl.innerText.trim() : '这个人很懒，什么都没留下';
-                    
-                    if (img && img.src && !img.src.includes('data:image')) {
-                        avatarSrc = img.src;
-                    } else {
-                        // 只有友链没图时，才用 DiceBear 兜底
-                        avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
-                        if (img) img.src = avatarSrc; 
-                    }
-                    isEmoji = false;
-                } 
-                // 2. 如果是漫游卡片
-                else if (item.classList.contains('nav-card')) {
-                    const itemNameEl = item.querySelector('.nav-title');
-                    const itemDescrEl = item.querySelector('.nav-desc');
-                    const iconEl = item.querySelector('.nav-icon');
-                    
-                    name = itemNameEl ? itemNameEl.innerText.trim() : '常用网站';
-                    descr = itemDescrEl ? itemDescrEl.innerText.trim() : '暂无描述';
-                    // 直接抓取 Emoji 图标
-                    avatarSrc = iconEl ? iconEl.innerText.trim() : '🔗'; 
-                    isEmoji = true;
-                }
-
-                // 鼠标移入
-                item.addEventListener('mouseenter', function(e) {
-                    nameEl.innerText = name;
-                    descrEl.innerText = descr;
-                    
-                    // 动态切换头像显示方式
-                    if (isEmoji) {
-                        avatarImgEl.style.display = 'none';
-                        avatarEmojiEl.innerText = avatarSrc;
-                        avatarEmojiEl.style.display = 'flex';
-                    } else {
-                        avatarEmojiEl.style.display = 'none';
-                        avatarImgEl.src = avatarSrc;
-                        avatarImgEl.style.display = 'block';
+                    // 1. 如果是友链卡片
+                    if (item.classList.contains('flink-list-item')) {
+                        const img = item.querySelector('img');
+                        const itemNameEl = item.querySelector('.flink-item-name');
+                        const itemDescrEl = item.querySelector('.flink-item-desc');
+                        
+                        name = itemNameEl ? itemNameEl.innerText.trim() : '神秘站点';
+                        descr = itemDescrEl ? itemDescrEl.innerText.trim() : '这个人很懒，什么都没留下';
+                        
+                        if (img && img.src && !img.src.includes('data:image')) {
+                            avatarSrc = img.src;
+                        } else {
+                            // 只有友链没图时，才用 DiceBear 兜底
+                            avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
+                            if (img) img.src = avatarSrc; 
+                        }
+                        isEmoji = false;
+                    } 
+                    // 2. 如果是漫游卡片
+                    else if (item.classList.contains('nav-card')) {
+                        const itemNameEl = item.querySelector('.nav-title');
+                        const itemDescrEl = item.querySelector('.nav-desc');
+                        const iconEl = item.querySelector('.nav-icon');
+                        
+                        name = itemNameEl ? itemNameEl.innerText.trim() : '常用网站';
+                        descr = itemDescrEl ? itemDescrEl.innerText.trim() : '暂无描述';
+                        // 直接抓取 Emoji 图标
+                        avatarSrc = iconEl ? iconEl.innerText.trim() : '🔗'; 
+                        isEmoji = true;
                     }
 
-                    popover.style.opacity = '1';
-                    popover.style.visibility = 'visible';
-                    popover.style.transform = 'translateY(0) scale(1)';
-                });
+                    // 鼠标移入
+                    item.addEventListener('mouseenter', function(e) {
+                        nameEl.innerText = name;
+                        descrEl.innerText = descr;
+                        
+                        // 动态切换头像显示方式
+                        if (isEmoji) {
+                            avatarImgEl.style.display = 'none';
+                            avatarEmojiEl.innerText = avatarSrc;
+                            avatarEmojiEl.style.display = 'flex';
+                        } else {
+                            avatarEmojiEl.style.display = 'none';
+                            avatarImgEl.src = avatarSrc;
+                            avatarImgEl.style.display = 'block';
+                        }
 
-                // 鼠标移动跟随
-                item.addEventListener('mousemove', function(e) {
-                    let x = e.clientX + 20;
-                    let y = e.clientY + 20;
-                    const popoverWidth = 260;
-                    const popoverHeight = 180; 
-                    
-                    if (x + popoverWidth > window.innerWidth) x = e.clientX - popoverWidth - 20; 
-                    if (y + popoverHeight > window.innerHeight) y = e.clientY - popoverHeight - 20; 
+                        popover.style.opacity = '1';
+                        popover.style.visibility = 'visible';
+                        popover.style.transform = 'translateY(0) scale(1)';
+                    });
 
-                    popover.style.left = x + 'px';
-                    popover.style.top = y + 'px';
-                });
+                    // 鼠标移动跟随
+                    item.addEventListener('mousemove', function(e) {
+                        let x = e.clientX + 20;
+                        let y = e.clientY + 20;
+                        const popoverWidth = 260;
+                        const popoverHeight = 180; 
+                        
+                        if (x + popoverWidth > window.innerWidth) x = e.clientX - popoverWidth - 20; 
+                        if (y + popoverHeight > window.innerHeight) y = e.clientY - popoverHeight - 20; 
 
-                // 鼠标移出
-                item.addEventListener('mouseleave', function() {
-                    popover.style.opacity = '0';
-                    popover.style.visibility = 'hidden';
-                    popover.style.transform = 'translateY(10px) scale(0.95)';
+                        popover.style.left = x + 'px';
+                        popover.style.top = y + 'px';
+                    });
+
+                    // 鼠标移出
+                    item.addEventListener('mouseleave', function() {
+                        popover.style.opacity = '0';
+                        popover.style.visibility = 'hidden';
+                        popover.style.transform = 'translateY(10px) scale(0.95)';
+                    });
                 });
-            });
-        }, 500);
+            }, 500);
         });
       </script>
 
