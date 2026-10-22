@@ -1,5 +1,5 @@
 /* =========================================
-   全站终极美化与多端适配 (完美修复版)
+   全站终极美化与多端适配 (完整重构版)
 ========================================= */
 
 /* -----------------------------------------
@@ -7,10 +7,11 @@
 ----------------------------------------- */
 html, body, #body-wrap, #page, #content-inner, .layout {
     width: 100% !important;
-    max-width: 100vw !important;
+    max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     box-sizing: border-box !important;
+    /* ★ 绝对防止手机端横向溢出导致网页整体缩小 */
     overflow-x: hidden !important; 
 }
 
@@ -57,7 +58,7 @@ body {
 }
 
 /* -----------------------------------------
-   1. 核心背景与顶部横幅 (PC端默认配置)
+   1. 核心背景与顶部横幅 (PC端)
 ----------------------------------------- */
 body.bg-random-image {
     background-image: linear-gradient(rgba(244, 245, 247, 0.65), rgba(244, 245, 247, 0.65)), var(--bg-img) !important;
@@ -417,49 +418,51 @@ main .gsc-comment-author img::before {
 }
 
 /* =========================================
-   7. 多端深度适配 (Media Queries) - 完美修复版
+   多端深度适配 (Media Queries) - 终极纯净看全图版
 ========================================= */
-
-/* --- 平板端 --- */
-@media screen and (max-width: 1024px) {
-    .nav-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-}
-
-/* --- 手机端 --- */
 @media screen and (max-width: 768px) {
-    /* ★ 终极背景黑科技：主体完整 + 同款模糊铺底 ★ */
+    /* 1. 强制防溢出 */
+    html, body, #body-wrap, #page, #content-inner, .layout {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* 2. 修复顶部大图高度 */
+    #page-header.full_page {
+        height: 100vh !important; 
+    }
+
+    /* ★ 3. 纯净背景：只显示原图，绝不裁切，不留大白边 ★ */
     body.bg-random-image {
-        background-color: #f4f5f7 !important; /* 留白部分的打底色 */
-        background-image: var(--bg-img) !important; /* 上层清晰图 */
-        background-size: contain !important; /* 强制完整显示 */
+        /* 留白部分使用高级的淡灰色（如果是暗黑模式就用黑色） */
+        background-color: #eef1f5 !important; 
+        
+        /* 图片完整居中显示，不裁切！ */
+        background-image: var(--bg-img) !important; 
+        background-size: contain !important; 
         background-position: center center !important;
         background-repeat: no-repeat !important;
         background-attachment: scroll !important; 
     }
     
-    /* 使用伪元素作为底层模糊铺满图 */
+    /* 彻底干掉所有会导致模糊的伪元素 */
     body.bg-random-image::before {
-        content: "" !important;
-        display: block !important; /* 手机上启用这个伪元素 */
-        position: fixed !important;
-        top: 0; left: 0; width: 100vw; height: 100vh;
-        z-index: -1 !important;
-        background-image: var(--bg-img) !important;
-        background-size: cover !important;
-        background-position: center center !important;
-        filter: blur(15px) brightness(0.8) !important; /* 添加模糊和压暗效果 */
-        pointer-events: none !important;
+        display: none !important;
+    }
+    
+    [data-theme="dark"] body.bg-random-image { 
+        background-color: #121212 !important; 
     }
 
-    /* 暗黑模式打底色 */
-    [data-theme="dark"] body.bg-random-image {
-        background-color: #161618 !important;
-    }
-    [data-theme="dark"] body.bg-random-image::before {
-        filter: blur(15px) brightness(0.4) !important;
+    /* 4. 防止长链接撑破屏幕 */
+    #article-container pre, #article-container a, #article-container code, p {
+        white-space: pre-wrap !important; 
+        word-break: break-all !important;
+        max-width: 100% !important;
     }
 
-    /* 性能与间距优化 */
+    /* 5. 卡片与交互优化 */
     body.ui-glass .recent-post-item, 
     body.ui-glass .card-widget,
     body.ui-glass #page,
@@ -467,8 +470,8 @@ main .gsc-comment-author img::before {
     #nav .menus_item .menus_item_child {
         backdrop-filter: blur(8px) !important;
         -webkit-backdrop-filter: blur(8px) !important;
-        background: rgba(255, 255, 255, 0.4) !important; 
-        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        background: rgba(255, 255, 255, 0.5) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
         padding: 15px !important;
     }
     [data-theme="dark"] body.ui-glass .recent-post-item, 
@@ -502,6 +505,5 @@ main .gsc-comment-author img::before {
     .nav-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.6) !important; }
     .nav-icon { min-width: 40px; height: 40px; font-size: 22px; border-radius: 10px; }
 
-    /* 手机端禁用悬浮窗 */
     #global-flink-popover { display: none !important; }
 }

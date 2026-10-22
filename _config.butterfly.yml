@@ -458,47 +458,78 @@ inject:
     - |
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ================= 1. 绝对精准的设备判定 =================
-            var screenShortSide = Math.min(window.screen.width, window.screen.height);
-            var isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-            var uaIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // ================= 1. 精准设备判定逻辑 =================
+            function getDeviceType() {
+                var ua = navigator.userAgent.toLowerCase();
+                var shortSide = Math.min(window.screen.width, window.screen.height);
+                var isTouch = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
 
-            var isMobile = (uaIsMobile || isTouchDevice) && screenShortSide < 820;
-            if (window.innerWidth <= 768) {
-                isMobile = true;
+                // 1. 检测是否为 iPad (对付 iPadOS 伪装成 Mac 的情况)
+                if (ua.indexOf('macintosh') > -1 && isTouch && shortSide > 800) {
+                    return 'tablet';
+                }
+
+                // 2. 检测是否为手机
+                if (/android|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(ua)) {
+                    // 如果是安卓，且短边大于 600，可能是安卓平板
+                    if (ua.indexOf('android') > -1 && shortSide > 600) {
+                        return 'tablet';
+                    }
+                    return 'mobile';
+                }
+
+                // 3. 检测是否为平板 (常规 UA)
+                if (/ipad|tablet|playbook|silk/i.test(ua)) {
+                    return 'tablet';
+                }
+
+                // 4. 兜底：如果在电脑上把浏览器缩得很小
+                if (window.innerWidth <= 768) {
+                    return 'mobile';
+                }
+
+                // 5. 其他情况就是电脑
+                return 'desktop';
             }
-            
-            // ================= 2. 随机图片 API 池 =================
+
+            var deviceType = getDeviceType();
+            console.log("当前设备判定为: " + deviceType);
+
+            // ================= 2. 根据设备分配图池 =================
             var apiPool;
-            if (isMobile) {
-                // ★ 换了这批顶级图源，比例更贴合手机，画质极高 ★
+            if (deviceType === 'mobile') {
+                // 手机端：纯竖屏
                 apiPool = [
-                    // 1. 随机风景壁纸（纯净无广告，带比例参数）
-                    "https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=images",
-                    // 2. 随机动漫壁纸（非常经典的高清图库）
-                    "https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images",
-                    // 3. 必应每日壁纸（虽然是横图，但构图通常居中，裁切后也很好看）
-                    "https://bing.biturl.top/?resolution=1080x1920&format=image"
+                    "https://api.yppp.net/pe.php",
+                    "https://api.dearxuan.com/image?type=mobile",
+                    "https://api.dujin.org/bing/1080.php"
+                ];
+            } else if (deviceType === 'tablet') {
+                // 平板端：大尺寸
+                apiPool = [
+                    "https://api.dujin.org/bing/1920.php",
+                    "https://t.alcy.cc/pc" 
                 ];
             } else {
-                // PC 端保持不变
+                // 电脑端：4K横屏
                 apiPool = [
-                    "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
+                    "https://uapis.cn/api/v1/random/image?category=landscape&type=4k",
                     "https://api.dujin.org/bing/1920.php",
                     "https://t.alcy.cc/pc"
                 ];
             }
-                
+
             var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
             
-            // ================= 3. 核心：自动重试加载机制 =================
-            apiPool.sort(() => Math.random() - 0.5); 
+            // ================= 3. 自动重试加载背景 =================
+            apiPool.sort(() => Math.random() - 0.5); // 打乱数组
             
             function loadBackground(apiList, index) {
                 if (index >= apiList.length) {
+                    // 所有接口都挂了，用兜底图
                     document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
                     document.body.classList.add('bg-random-image');
-                    console.warn('所有背景图 API 均已失效，已启用兜底图');
+                    console.warn('所有 API 均失效，已启用兜底图');
                     return;
                 }
 
@@ -514,7 +545,7 @@ inject:
                 };
                 
                 imgTester.onerror = function() {
-                    console.warn('接口 ' + currentApi + ' 加载失败，正在尝试下一个...');
+                    console.warn('接口 ' + currentApi + ' 加载失败，尝试下一个...');
                     loadBackground(apiList, index + 1);
                 };
             }
@@ -525,7 +556,7 @@ inject:
             // ================= 4. 文章封面多端适配 =================
             var covers = document.querySelectorAll(".post-bg");
             covers.forEach(function (cover) {
-                var coverApi = isMobile ? "https://bing.biturl.top/?resolution=1080x1920&format=image" : apiPool[0];
+                var coverApi = deviceType === 'mobile' ? "https://api.dearxuan.com/image?type=mobile" : apiPool[0];
                 var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.floor(Math.random() * 100);
                 cover.style.backgroundImage = "url('" + coverUrl + "')";
             });
@@ -562,6 +593,7 @@ inject:
                     let avatarSrc = '';
                     let isEmoji = false;
 
+                    // 1. 友链卡片
                     if (item.classList.contains('flink-list-item')) {
                         const img = item.querySelector('img');
                         const itemNameEl = item.querySelector('.flink-item-name');
@@ -578,6 +610,7 @@ inject:
                         }
                         isEmoji = false;
                     } 
+                    // 2. 漫游卡片
                     else if (item.classList.contains('nav-card')) {
                         const itemNameEl = item.querySelector('.nav-title');
                         const itemDescrEl = item.querySelector('.nav-desc');
@@ -631,7 +664,7 @@ inject:
         });
       </script>
 
-
+      
 # --------------------------------------
 # CDN 设置
 # --------------------------------------
