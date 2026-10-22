@@ -1,5 +1,5 @@
 /* =========================================
-   全站终极美化与多端适配 (完整重构版)
+   全站终极美化与多端适配 (完美安全版)
 ========================================= */
 
 /* -----------------------------------------
@@ -275,61 +275,8 @@ body.ui-glass #toc, body.ui-glass .toc-div {
 }
 
 /* -----------------------------------------
-   6. 友链、漫游页面与悬浮窗
+   6. 漫游页面与悬浮窗
 ----------------------------------------- */
-/* 友链分类框 */
-.flink-list:last-of-type {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border-radius: 16px !important;
-    padding: 20px !important;
-    border: 1px dashed rgba(73, 177, 245, 0.4) !important;
-    margin-top: 30px;
-}
-[data-theme="dark"] .flink-list:last-of-type {
-    background: rgba(0, 0, 0, 0.2) !important;
-    border: 1px dashed rgba(255, 255, 255, 0.2) !important;
-}
-.flink-list h2::before { content: "💫 "; font-size: 1.2em; }
-
-/* 友链卡片 */
-body.ui-glass .flink-list-item {
-    background: rgba(255, 255, 255, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    border-radius: 12px !important;
-    padding: 10px 15px !important;
-    transition: all 0.3s ease;
-}
-[data-theme="dark"] body.ui-glass .flink-list-item {
-    background: rgba(30, 30, 30, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-/* 友链申请表单 */
-#friend-link-form {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    margin-bottom: 40px;
-}
-[data-theme="dark"] #friend-link-form {
-    background: rgba(30, 30, 30, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-#friend-link-form input {
-    width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.8); box-sizing: border-box;
-}
-[data-theme="dark"] #friend-link-form input {
-    border: 1px solid #444; background: rgba(0, 0, 0, 0.3); color: #fff;
-}
-#friend-link-form #submit-btn {
-    width: 100%; padding: 14px; background: #49B1F5; color: white;
-    border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
-}
-
-/* 漫游页面 */
 .nav-header-box {
     background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px);
     border-radius: 16px; padding: 30px; margin-bottom: 30px; text-align: center;
@@ -367,42 +314,6 @@ body.ui-glass .flink-list-item {
 [data-theme="dark"] .nav-title { color: #e0e0e0 !important; }
 [data-theme="dark"] .nav-desc { color: #a0a0a0 !important; }
 
-/* 全局悬浮窗 */
-#global-flink-popover {
-    position: fixed; z-index: 99999; width: 260px;
-    background: rgba(255, 255, 255, 0.85) !important; backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important; border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); pointer-events: none;
-    opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.95);
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.3s;
-    padding: 20px 15px; text-align: center;
-}
-[data-theme="dark"] #global-flink-popover {
-    background: rgba(30, 30, 30, 0.85) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-#global-flink-popover .preview-avatar {
-    width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
-    margin: 0 auto 12px auto; border: 3px solid rgba(255, 255, 255, 0.8); display: block;
-}
-#global-flink-popover .preview-name { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 8px; }
-[data-theme="dark"] #global-flink-popover .preview-name { color: #fff; }
-#global-flink-popover .preview-descr {
-    font-size: 13px; color: #666; line-height: 1.5;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-}
-[data-theme="dark"] #global-flink-popover .preview-descr { color: #aaa; }
-.flink-list-item { position: relative; z-index: 1; }
-
-#global-flink-popover .preview-avatar-emoji {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5); display: none; 
-    align-items: center; justify-content: center; font-size: 32px; 
-    margin: 0 auto 12px auto; border: 3px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-[data-theme="dark"] #global-flink-popover .preview-avatar-emoji {
-    background: rgba(0, 0, 0, 0.3); border-color: #444;
-}
 
 /* Giscus 头像兜底 */
 main .gsc-comment-author img {
@@ -417,161 +328,242 @@ main .gsc-comment-author img::before {
     background: #eee; color: #999; font-size: 12px;
 }
 
-/* =========================================
-   7. 多端深度适配 (Media Queries) - 现代视差版
-========================================= */
-
-/* 移动端专属：解决 100vh 被地址栏遮挡的问题 */
-@supports (height: 100dvh) {
-    #page-header.full_page {
-        height: 100dvh !important; 
-    }
+/* -----------------------------------------
+   7. 友链表单
+----------------------------------------- */
+#friend-link-form {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    margin-bottom: 40px;
+}
+[data-theme="dark"] #friend-link-form {
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+#friend-link-form input {
+    width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.8); box-sizing: border-box;
+}
+[data-theme="dark"] #friend-link-form input {
+    border: 1px solid #444; background: rgba(0, 0, 0, 0.3); color: #fff;
+}
+#friend-link-form #submit-btn {
+    width: 100%; padding: 14px; background: #49B1F5; color: white;
+    border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
-    /* 1. 强制防溢出 */
-    html, body, #body-wrap, #page, #content-inner, .layout {
-        width: 100vw !important;
-        max-width: 100vw !important;
-        overflow-x: hidden !important;
-    }
-
-    /* 2. 终极黑科技：手机端视差背景 (绝对不卡顿、不闪烁) */
-    /* 我们用 ::before 伪元素来承载固定的背景图 */
-    body.bg-random-image {
-        background-image: none !important; /* 去掉 body 原本的图 */
-    }
-    
-    body.bg-random-image::before {
-        content: "" !important;
-        display: block !important;
-        position: fixed !important; /* 固定不动 */
-        top: 0; left: 0; 
-        width: 100vw; height: 100vh;
-        z-index: -1 !important;
-        /* 底层图加一层半透明遮罩，让字更清晰 */
-        background-image: linear-gradient(rgba(244, 245, 247, 0.65), rgba(244, 245, 247, 0.65)), var(--bg-img) !important;
-        background-size: cover !important; /* 铺满全屏 */
-        background-position: center center !important;
-        background-repeat: no-repeat !important;
-        pointer-events: none !important;
-    }
-
-    /* 暗黑模式的底层遮罩 */
-    [data-theme="dark"] body.bg-random-image::before {
-        background-image: linear-gradient(rgba(22, 22, 24, 0.75), rgba(22, 22, 24, 0.75)), var(--bg-img) !important;
-    }
-
-    /* 3. 卡片与交互优化 (毛玻璃盖在背景上) */
-    body.ui-glass .recent-post-item, 
-    body.ui-glass .card-widget,
-    body.ui-glass #page,
-    body.ui-glass #post,
-    #nav .menus_item .menus_item_child {
-        backdrop-filter: blur(8px) !important;
-        -webkit-backdrop-filter: blur(8px) !important;
-        background: rgba(255, 255, 255, 0.5) !important; 
-        border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        padding: 15px !important;
-    }
-    [data-theme="dark"] body.ui-glass .recent-post-item, 
-    [data-theme="dark"] body.ui-glass .card-widget,
-    [data-theme="dark"] body.ui-glass #page,
-    [data-theme="dark"] body.ui-glass #post,
-    [data-theme="dark"] #nav .menus_item .menus_item_child {
-        background: rgba(30, 30, 30, 0.5) !important;
-        border-color: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    body.ui-glass .recent-post-item, body.ui-glass .card-widget {
-        margin: 0 10px 15px 10px !important; 
-    }
-
-    #nav .menus_item .menus_item_child { padding: 10px 0 !important; }
-    #nav .menus_item .menus_item_child li a { padding: 10px 20px !important; }
-
-    #footer {
-        width: 95% !important;
-        margin: 15px auto 20px auto !important; 
-        border-radius: 20px !important; 
-        padding: 15px 10px !important;
-    }
-
-    /* 4. 漫游页与标题流式排版 (使用 clamp 让字体自动缩放) */
-    .nav-header-box { padding: 20px 15px; margin-bottom: 20px; }
-    .nav-header-box h1 { font-size: clamp(1.5rem, 5vw, 2rem) !important; }
-    .nav-section-title { font-size: clamp(1.1rem, 4vw, 1.2rem); margin: 20px 0 10px 0 !important; }
-    .nav-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 12px; }
-    .nav-card { padding: 15px; }
-    .nav-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.6) !important; }
-    .nav-icon { min-width: 40px; height: 40px; font-size: 22px; border-radius: 10px; }
-
-    /* 5. 防止长链接撑破屏幕 */
-    #article-container pre, #article-container a, #article-container code, p {
-        white-space: pre-wrap !important; 
-        word-break: break-all !important;
-        max-width: 100% !important;
-    }
-
-    #global-flink-popover { display: none !important; }
-}
 
 /* =========================================
-   友链卡片终极修复版 (回归原生布局)
+   8. 友链卡片完美排版 (多列自适应 Grid 版)
 ========================================= */
 
-/* 1. 恢复卡片背景、边框和圆角，高度自适应 */
+/* 改用 Grid 网格，自动换行，自动撑满 */
+.flink-list {
+    display: grid !important;
+    /* ★ 核心修改：最小宽度设为 220px，屏幕宽时自动排 3 个或 4 个 */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; 
+    gap: 15px !important; 
+    width: 100% !important;
+}
+
+/* 外层卡片：取消固定宽度限制，由 Grid 自动分配 */
 body.ui-glass .flink-list-item {
-    background: rgba(255, 255, 255, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
     border-radius: 12px !important;
-    /* 不要用 flex 布局，用原本的 block，让内部绝对定位生效 */
-    display: block !important; 
-    height: auto !important; 
-    min-height: 90px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+    
+    width: 100% !important;  
+    height: 80px !important; 
+    position: relative !important;
+    overflow: hidden !important;
+    transition: transform 0.3s ease, background 0.3s ease !important;
 }
 
-[data-theme="dark"] body.ui-glass .flink-list-item {
-    background: rgba(30, 30, 30, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+/* 内部 A 标签铺满整个卡片 */
+body.ui-glass .flink-list-item a {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0 !important; 
+    left: 0 !important;
+    text-decoration: none !important;
 }
 
-/* 2. 修复头像尺寸，防止被拉长或压扁 */
-body.ui-glass .flink-list-item .img {
-    width: 50px !important;
-    height: 50px !important;
-    margin-left: 15px !important; /* 让头像离左边稍微远点 */
+/* 干掉各种残留伪元素和背景 */
+body.ui-glass .flink-list-item::before,
+body.ui-glass .flink-list-item::after,
+body.ui-glass .flink-list-item .flink-item-bg {
+    display: none !important;
 }
 
-body.ui-glass .flink-list-item .img img {
+/* 1. 头像容器：左侧绝对居中 */
+body.ui-glass .flink-list-item .flink-item-icon {
+    position: absolute !important;
+    left: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important; 
+    
+    width: 46px !important;
+    height: 46px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    background: #eee !important; 
+    display: block !important;
+}
+
+/* 头像图片：暴杀偏移，居中铺满 */
+body.ui-glass .flink-list-item .flink-item-icon img {
+    display: block !important;
+    position: absolute !important; 
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
+    object-position: center !important; 
     border-radius: 50% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important; 
 }
 
-/* 3. 修复文字被截断，并限制文字宽度 */
-body.ui-glass .flink-list-item .info {
-    padding-left: 70px !important; /* 给头像留出空间 */
-    padding-right: 15px !important;
+/* 2. 名字：钉在右上角 */
+body.ui-glass .flink-list-item .flink-item-name {
+    position: absolute !important;
+    left: 75px !important; 
+    top: 21px !important;  
+    width: calc(100% - 90px) !important;
+    
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: #333 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
 }
 
-body.ui-glass .flink-list-item .info .title {
-    font-size: 1.1em !important;
-    margin-bottom: 5px !important;
+/* 3. 描述：钉在右下角 */
+body.ui-glass .flink-list-item .flink-item-desc {
+    position: absolute !important;
+    left: 75px !important; 
+    top: 43px !important;  
+    width: calc(100% - 90px) !important;
+    
+    font-size: 12px !important;
+    color: #666 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
 }
 
-body.ui-glass .flink-list-item .info .desc {
-    font-size: 0.85em !important;
-    line-height: 1.4 !important;
-    /* 如果文字太长，强制省略号 */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+/* 悬停动效 */
+body.ui-glass .flink-list-item:hover {
+    transform: translateY(-3px) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 暗色模式 */
+[data-theme="dark"] body.ui-glass .flink-list-item {
+    background: rgba(30, 30, 30, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+[data-theme="dark"] body.ui-glass .flink-list-item:hover {
+    background: rgba(30, 30, 30, 0.9) !important;
+}
+[data-theme="dark"] body.ui-glass .flink-list-item .flink-item-name { color: #e0e0e0 !important; }
+[data-theme="dark"] body.ui-glass .flink-list-item .flink-item-desc { color: #aaa !important; }
+[data-theme="dark"] body.ui-glass .flink-list-item .flink-item-icon { background: #444 !important; }
+
+
+/* =========================================
+   9. 全局友链悬浮窗美化 (最终版)
+========================================= */
+#global-flink-popover {
+    position: fixed; 
+    z-index: 99999; 
+    width: 260px;
+    background: rgba(255, 255, 255, 0.85) !important; 
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important; 
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); 
+    pointer-events: none; /* 关键：防止弹窗挡住鼠标导致无法点击卡片 */
+    opacity: 0; 
+    visibility: hidden; 
+    transform: translateY(10px) scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.3s;
+    padding: 20px 15px; 
+    text-align: center;
+}
+
+[data-theme="dark"] #global-flink-popover {
+    background: rgba(30, 30, 30, 0.85) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#global-flink-popover .preview-avatar {
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    object-fit: cover;
+    margin: 0 auto 12px auto; 
+    border: 3px solid rgba(255, 255, 255, 0.8); 
+    display: none;
+}
+
+#global-flink-popover .preview-name { 
+    font-size: 18px; 
+    font-weight: bold; 
+    color: #333; 
+    margin-bottom: 8px; 
+}
+
+[data-theme="dark"] #global-flink-popover .preview-name { color: #fff; }
+
+#global-flink-popover .preview-descr {
+    font-size: 13px; 
+    color: #666; 
+    line-height: 1.5;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical; 
     overflow: hidden;
 }
 
-/* 4. 调整网格间距，防止卡片互相挤压 */
-.flink-list {
-    gap: 15px !important;
+[data-theme="dark"] #global-flink-popover .preview-descr { color: #aaa; }
+
+#global-flink-popover .preview-avatar-emoji {
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5); 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 32px; 
+    margin: 0 auto 12px auto; 
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] #global-flink-popover .preview-avatar-emoji {
+    background: rgba(0, 0, 0, 0.3); 
+    border-color: #444;
 }

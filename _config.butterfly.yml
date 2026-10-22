@@ -561,7 +561,7 @@ inject:
                 cover.style.backgroundImage = "url('" + coverUrl + "')";
             });
 
-            // ================= 5. 全局悬浮预览窗 =================
+                      // ================= 5. 全局悬浮预览窗 =================
             setTimeout(function() {
                 const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
                 if(targetItems.length === 0) return;
@@ -606,7 +606,6 @@ inject:
                             avatarSrc = img.src;
                         } else {
                             avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
-                            if (img) img.src = avatarSrc; 
                         }
                         isEmoji = false;
                     } 
@@ -622,7 +621,7 @@ inject:
                         isEmoji = true;
                     }
 
-                    item.addEventListener('mouseenter', function(e) {
+                    item.addEventListener('mouseenter', function() {
                         nameEl.innerText = name;
                         descrEl.innerText = descr;
                         

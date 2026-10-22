@@ -91,16 +91,17 @@ function generateFriendLink() {
   }
 
   // 拼接成人类友好的文本 + YAML 源码
-  var text = "【友链申请】\n" +
-             "网站名称：" + name + "\n" +
-             "网站链接：" + link + "\n" +
-             "头像直链：" + avatar + "\n" +
-             "一句话描述：" + (descr ? descr : "这个人很懒，什么都没写") + "\n\n" +
-             "（以下为 YAML 配置，博主可直接复制到 link.yml）\n" +
+  var text = "✨ 【友链申请】\n" +
+             "🏷️ 网站名称：" + name + "\n" +
+             "🔗 网站链接：" + link + "\n" +
+             "🖼️ 头像直链：" + avatar + "\n" +
+             "📝 网站描述：" + (descr ? descr : "这个人很懒，什么都没写") + "\n\n" +
+             "👇 以下为 YAML 配置，请博主复制到 link.yml 👇\n" +
              "- name: " + name + "\n" +
              "  link: " + link + "\n" +
              "  avatar: " + avatar + "\n" +
              "  descr: " + (descr ? descr : "这个人很懒，什么都没写");
+             
 
   // 复制到剪贴板
   navigator.clipboard.writeText(text).then(function() {
