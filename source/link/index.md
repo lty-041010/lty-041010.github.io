@@ -34,7 +34,51 @@ comments: true
   </button>
 </div>
 
+<!-- 轻提示 (Toast) 容器 -->
+<div id="custom-toast"></div>
+
+<style>
+/* Toast 提示框样式 */
+#custom-toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #49B1F5; /* 主题蓝 */
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 10000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#custom-toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+</style>
+
 <script>
+// 显示 Toast 的函数
+function showToast(message) {
+  var toast = document.getElementById("custom-toast");
+  toast.innerText = message;
+  toast.className = "show";
+  
+  // 3秒后自动隐藏
+  setTimeout(function(){ 
+    toast.className = toast.className.replace("show", ""); 
+  }, 3000);
+}
+
 function generateFriendLink() {
   var name = document.getElementById('fl-name').value.trim();
   var link = document.getElementById('fl-link').value.trim();
@@ -42,19 +86,26 @@ function generateFriendLink() {
   var descr = document.getElementById('fl-descr').value.trim();
 
   if (!name || !link || !avatar) {
-    alert("请至少填写：网站名称、网站链接、头像直链！");
+    showToast("❌ 请至少填写：网站名称、网站链接、头像直链！");
     return;
   }
 
-  // 按照 YAML 格式拼接文本
-  var text = "- name: " + name + "\n" +
+  // 拼接成人类友好的文本 + YAML 源码
+  var text = "【友链申请】\n" +
+             "网站名称：" + name + "\n" +
+             "网站链接：" + link + "\n" +
+             "头像直链：" + avatar + "\n" +
+             "一句话描述：" + (descr ? descr : "这个人很懒，什么都没写") + "\n\n" +
+             "（以下为 YAML 配置，博主可直接复制到 link.yml）\n" +
+             "- name: " + name + "\n" +
              "  link: " + link + "\n" +
              "  avatar: " + avatar + "\n" +
              "  descr: " + (descr ? descr : "这个人很懒，什么都没写");
 
   // 复制到剪贴板
   navigator.clipboard.writeText(text).then(function() {
-    alert("✅ 申请格式已复制！\n\n请去下方的评论区直接粘贴 (Ctrl+V) 发布即可。");
+    // 复制成功，显示小提示
+    showToast("✅ 申请格式已复制！请去下方评论区粘贴发布");
     
     // 自动平滑滚动到页面底部的评论区
     window.scrollTo({
@@ -62,7 +113,9 @@ function generateFriendLink() {
       behavior: 'smooth'
     });
   }).catch(function(err) {
+    // 只有在复制失败这种极端情况下，才使用 alert 让用户手动复制
     alert("复制失败，请手动复制以下内容：\n\n" + text);
   });
 }
 </script>
+

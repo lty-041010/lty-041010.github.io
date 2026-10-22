@@ -515,3 +515,39 @@ main .gsc-comment-author img::before {
 
     #global-flink-popover { display: none !important; }
 }
+
+/* =========================================
+   修复友链卡片高度截断问题
+========================================= */
+body.ui-glass .flink-list-item {
+    /* 强制高度自适应，绝不截断 */
+    height: auto !important;
+    min-height: 90px !important; 
+    overflow: visible !important;
+    
+    /* 确保内部元素垂直居中 */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 确保头像不被压扁 */
+body.ui-glass .flink-list-item img {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    margin-right: 15px !important;
+}
+
+/* 确保文字信息区域正常排版 */
+body.ui-glass .flink-list-item .flink-item-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    height: 100% !important;
+}
+
+/* 顺便把网格的间距稍微拉大一点，防止卡片挤在一起 */
+.flink-list {
+    gap: 15px !important;
+}
