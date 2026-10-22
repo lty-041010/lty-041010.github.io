@@ -458,13 +458,25 @@ inject:
     - |
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ================= 1. 防崩溃的多端动态背景 (真·手机竖屏版) =================
-            // 加入 UA 检测，防止折叠屏或横屏手机被误判
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            // ================= 1. 绝对精准的设备判定 =================
+            // 获取屏幕的物理短边（不受手机横屏/竖屏影响，短边永远不变）
+            var screenShortSide = Math.min(window.screen.width, window.screen.height);
+            // 检测是否为触屏设备
+            var isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+            // 检测 UA
+            var uaIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // 判定逻辑：如果是手机/平板等触屏设备，且屏幕短边小于 820px（覆盖手机和大部分折叠屏）
+            var isMobile = (uaIsMobile || isTouchDevice) && screenShortSide < 820;
+            // 补充判定：如果是极窄的窗口（比如电脑上把浏览器缩得很小），也按移动端处理
+            if (window.innerWidth <= 768) {
+                isMobile = true;
+            }
             
+            // ================= 2. 终极多端图池 =================
             var apiPool;
             if (isMobile) {
-                // ★ 终极手机竖屏图池：整合了目前最稳的几个免费接口 ★
+                // 手机端：全竖屏/高质量图
                 apiPool = [
                     "https://api.yppp.net/pe.php",
                     "https://bing.biturl.top/?resolution=1080x1920&format=image",
@@ -473,7 +485,7 @@ inject:
                     "https://eopfapi.acofork.com/pic?img=v"
                 ];
             } else {
-                // PC 端保持不变
+                // PC 端：横屏 4K
                 apiPool = [
                     "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
                     "https://api.dujin.org/bing/1920.php",
@@ -485,7 +497,7 @@ inject:
             var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
             var finalUrl = randomApi.includes("bing") ? randomApi : randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
 
-            // 预加载图片，成功才应用，失败用兜底图（彻底解决崩溃问题）
+            // 预加载图片
             var imgTester = new Image();
             imgTester.src = finalUrl;
             
@@ -501,15 +513,16 @@ inject:
 
             document.body.classList.add('ui-glass');
 
-            // ================= 2. 文章封面多端适配 =================
+            // ================= 3. 文章封面多端适配 =================
             var covers = document.querySelectorAll(".post-bg");
             covers.forEach(function (cover) {
-                var coverApi = isMobile ? "https://t.alcy.cc/mp" : randomApi;
+                var coverApi = isMobile ? "https://api.yppp.net/pe.php" : randomApi;
                 var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
                 cover.style.backgroundImage = "url('" + coverUrl + "')";
             });
 
-            // ================= 3. 全局悬浮预览 (智能区分友链与漫游) =================
+            // ================= 4. 悬浮预览窗逻辑 (保持原样) =================
+            // ... (把你之前的 setTimeout 悬浮窗代码原封不动粘在这里) ...
             setTimeout(function() {
                 // 同时抓取友链卡片和漫游卡片
                 const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
@@ -518,7 +531,6 @@ inject:
                 const popover = document.createElement('div');
                 popover.id = 'global-flink-popover';
                 
-                // 创建两种头像显示方式：图片 和 Emoji文本
                 const avatarImgEl = document.createElement('img');
                 avatarImgEl.className = 'preview-avatar';
                 
@@ -543,7 +555,6 @@ inject:
                     let avatarSrc = '';
                     let isEmoji = false;
 
-                    // 1. 如果是友链卡片
                     if (item.classList.contains('flink-list-item')) {
                         const img = item.querySelector('img');
                         const itemNameEl = item.querySelector('.flink-item-name');
@@ -555,13 +566,11 @@ inject:
                         if (img && img.src && !img.src.includes('data:image')) {
                             avatarSrc = img.src;
                         } else {
-                            // 只有友链没图时，才用 DiceBear 兜底
                             avatarSrc = 'https://api.dicebear.com/7.x/notionists/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=b6e3f4,c0aede,d1d4f9';
                             if (img) img.src = avatarSrc; 
                         }
                         isEmoji = false;
                     } 
-                    // 2. 如果是漫游卡片
                     else if (item.classList.contains('nav-card')) {
                         const itemNameEl = item.querySelector('.nav-title');
                         const itemDescrEl = item.querySelector('.nav-desc');
@@ -569,17 +578,14 @@ inject:
                         
                         name = itemNameEl ? itemNameEl.innerText.trim() : '常用网站';
                         descr = itemDescrEl ? itemDescrEl.innerText.trim() : '暂无描述';
-                        // 直接抓取 Emoji 图标
                         avatarSrc = iconEl ? iconEl.innerText.trim() : '🔗'; 
                         isEmoji = true;
                     }
 
-                    // 鼠标移入
                     item.addEventListener('mouseenter', function(e) {
                         nameEl.innerText = name;
                         descrEl.innerText = descr;
                         
-                        // 动态切换头像显示方式
                         if (isEmoji) {
                             avatarImgEl.style.display = 'none';
                             avatarEmojiEl.innerText = avatarSrc;
@@ -595,7 +601,6 @@ inject:
                         popover.style.transform = 'translateY(0) scale(1)';
                     });
 
-                    // 鼠标移动跟随
                     item.addEventListener('mousemove', function(e) {
                         let x = e.clientX + 20;
                         let y = e.clientY + 20;
@@ -609,7 +614,6 @@ inject:
                         popover.style.top = y + 'px';
                     });
 
-                    // 鼠标移出
                     item.addEventListener('mouseleave', function() {
                         popover.style.opacity = '0';
                         popover.style.visibility = 'hidden';
