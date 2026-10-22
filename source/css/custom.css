@@ -1,5 +1,5 @@
 /* =========================================
-   全站终极美化与多端适配 (Clean 最终修复版)
+   全站终极美化与多端适配 (完美修复版)
 ========================================= */
 
 /* -----------------------------------------
@@ -30,9 +30,7 @@ body {
     color: #c8d2dc !important; 
 }
 
-#article-container p {
-    margin-bottom: 1.2rem !important;
-}
+#article-container p { margin-bottom: 1.2rem !important; }
 #article-container h1, 
 #article-container h2, 
 #article-container h3 {
@@ -77,9 +75,6 @@ body.bg-random-image {
 }
 #page-header::before {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%) !important;
-}
-body.bg-random-image::before {
-    display: none !important;
 }
 
 /* -----------------------------------------
@@ -422,7 +417,7 @@ main .gsc-comment-author img::before {
 }
 
 /* =========================================
-   7. 多端深度适配 (Media Queries)
+   7. 多端深度适配 (Media Queries) - 完美修复版
 ========================================= */
 
 /* --- 平板端 --- */
@@ -432,20 +427,39 @@ main .gsc-comment-author img::before {
 
 /* --- 手机端 --- */
 @media screen and (max-width: 768px) {
+    /* ★ 终极背景黑科技：主体完整 + 同款模糊铺底 ★ */
     body.bg-random-image {
+        background-color: #f4f5f7 !important; /* 留白部分的打底色 */
+        background-image: var(--bg-img) !important; /* 上层清晰图 */
+        background-size: contain !important; /* 强制完整显示 */
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
         background-attachment: scroll !important; 
-        /* 改回 cover 铺满全屏 */
-        background-size: cover !important; 
-        background-repeat: no-repeat !important; 
-        /* 强制居中，这样即使裁切，也是裁两边，保留中间主体 */
-        background-position: center center !important; 
     }
-}
-    [data-theme="dark"] body.bg-random-image {
-        background-image: linear-gradient(rgba(22, 22, 24, 0.75), rgba(22, 22, 24, 0.75)), var(--bg-img) !important;
+    
+    /* 使用伪元素作为底层模糊铺满图 */
+    body.bg-random-image::before {
+        content: "" !important;
+        display: block !important; /* 手机上启用这个伪元素 */
+        position: fixed !important;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        z-index: -1 !important;
+        background-image: var(--bg-img) !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        filter: blur(15px) brightness(0.8) !important; /* 添加模糊和压暗效果 */
+        pointer-events: none !important;
     }
 
-    /* 2. 性能与间距优化 */
+    /* 暗黑模式打底色 */
+    [data-theme="dark"] body.bg-random-image {
+        background-color: #161618 !important;
+    }
+    [data-theme="dark"] body.bg-random-image::before {
+        filter: blur(15px) brightness(0.4) !important;
+    }
+
+    /* 性能与间距优化 */
     body.ui-glass .recent-post-item, 
     body.ui-glass .card-widget,
     body.ui-glass #page,
@@ -488,41 +502,6 @@ main .gsc-comment-author img::before {
     .nav-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.6) !important; }
     .nav-icon { min-width: 40px; height: 40px; font-size: 22px; border-radius: 10px; }
 
+    /* 手机端禁用悬浮窗 */
     #global-flink-popover { display: none !important; }
-}
-
-/* =========================================
-   手机端终极背景优化：主体完整 + 模糊铺底
-========================================= */
-@media screen and (max-width: 768px) {
-    body.bg-random-image {
-        background-attachment: scroll !important; 
-        /* 留白部分用淡灰色打底 */
-        background-color: #f4f5f7 !important; 
-        
-        /* ★ 核心黑科技：两层背景叠加 ★ */
-        /* 第一层：原图完整居中显示 (contain) */
-        /* 第二层：同款图片放大铺满 (cover) 并加上毛玻璃滤镜 (blur) */
-        background-image: 
-            var(--bg-img), 
-            var(--bg-img) !important; 
-            
-        background-size: 
-            contain, /* 上层：完整显示 */
-            cover !important; /* 下层：铺满 */
-            
-        background-position: 
-            center center, /* 上层：居中 */
-            center center !important; /* 下层：居中 */
-            
-        background-repeat: no-repeat !important;
-        
-        /* 给底层的那张铺满图加一点透明度，让它成为漂亮的背景底 */
-        background-blend-mode: normal;
-    }
-    
-    /* 暗黑模式打底色 */
-    [data-theme="dark"] body.bg-random-image {
-        background-color: #161618 !important;
-    }
 }
