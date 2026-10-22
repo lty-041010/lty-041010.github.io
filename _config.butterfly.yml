@@ -464,13 +464,16 @@ inject:
             
             var apiPool;
             if (isMobile) {
-                // ★ 手机端：使用真正返回竖屏/高比例图的接口 ★
+                // ★ 终极手机竖屏图池：整合了目前最稳的几个免费接口 ★
                 apiPool = [
-                    "https://t.alcy.cc/mp", // 专门用于手机端的二次元/风景图
-                    "https://api.dujin.org/bing/1080.php" // 必应 1080p 手机竖屏版
+                    "https://api.yppp.net/pe.php",
+                    "https://bing.biturl.top/?resolution=1080x1920&format=image",
+                    "https://imgapi.siiway.top/image/v",
+                    "https://xiaoqi.icofun.cn/API/loveanimer.php?screen=3",
+                    "https://eopfapi.acofork.com/pic?img=v"
                 ];
             } else {
-                // PC 端和 iPad 端
+                // PC 端保持不变
                 apiPool = [
                     "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
                     "https://api.dujin.org/bing/1920.php",
