@@ -529,3 +529,27 @@ main .gsc-comment-author img::before {
     background: rgba(0, 0, 0, 0.3);
     border-color: #444;
 }
+
+/* =========================================
+   全站移动端防溢出（防止页面缩水）
+========================================= */
+html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important; /* 强行切断横向滚动条 */
+}
+
+/* 确保主容器不会因为内边距而撑破屏幕 */
+#body-wrap, #page, #content-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 防止超长代码块、链接和图片撑破屏幕 */
+#article-container pre,
+#article-container a {
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    white-space: pre-wrap !important;
+}

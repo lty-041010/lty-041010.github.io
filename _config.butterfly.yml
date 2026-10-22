@@ -459,33 +459,24 @@ inject:
       <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ================= 1. 绝对精准的设备判定 =================
-            // 获取屏幕的物理短边（不受手机横屏/竖屏影响，短边永远不变）
             var screenShortSide = Math.min(window.screen.width, window.screen.height);
-            // 检测是否为触屏设备
             var isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-            // 检测 UA
             var uaIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-            // 判定逻辑：如果是手机/平板等触屏设备，且屏幕短边小于 820px（覆盖手机和大部分折叠屏）
             var isMobile = (uaIsMobile || isTouchDevice) && screenShortSide < 820;
-            // 补充判定：如果是极窄的窗口（比如电脑上把浏览器缩得很小），也按移动端处理
             if (window.innerWidth <= 768) {
                 isMobile = true;
             }
             
-            // ================= 2. 终极多端图池 =================
+            // ================= 2. 极度稳定的多端图池 =================
             var apiPool;
             if (isMobile) {
-                // 手机端：全竖屏/高质量图
                 apiPool = [
-                    "https://api.yppp.net/pe.php",
                     "https://bing.biturl.top/?resolution=1080x1920&format=image",
-                    "https://imgapi.siiway.top/image/v",
-                    "https://xiaoqi.icofun.cn/API/loveanimer.php?screen=3",
-                    "https://eopfapi.acofork.com/pic?img=v"
+                    "https://api.yppp.net/pe.php", 
+                    "https://imgapi.siiway.top/image/v"
                 ];
             } else {
-                // PC 端：横屏 4K
                 apiPool = [
                     "https://uapis.cn/api/v1/random/image?category=landscape&type=4k", 
                     "https://api.dujin.org/bing/1920.php",
@@ -494,37 +485,48 @@ inject:
             }
                 
             var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
-            var randomApi = apiPool[Math.floor(Math.random() * apiPool.length)];
-            var finalUrl = randomApi.includes("bing") ? randomApi : randomApi + (randomApi.includes("?") ? "&" : "?") + "t=" + Date.now();
-
-            // 预加载图片
-            var imgTester = new Image();
-            imgTester.src = finalUrl;
             
-            imgTester.onload = function() {
-                document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
-                document.body.classList.add('bg-random-image');
-            };
+            // ================= 3. 核心：自动重试加载机制 =================
+            apiPool.sort(() => Math.random() - 0.5); 
             
-            imgTester.onerror = function() {
-                document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
-                document.body.classList.add('bg-random-image');
-            };
+            function loadBackground(apiList, index) {
+                if (index >= apiList.length) {
+                    document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
+                    document.body.classList.add('bg-random-image');
+                    console.warn('所有背景图 API 均已失效，已启用兜底图');
+                    return;
+                }
 
+                var currentApi = apiList[index];
+                var finalUrl = currentApi.includes("bing") ? currentApi : currentApi + (currentApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+
+                var imgTester = new Image();
+                imgTester.src = finalUrl;
+                
+                imgTester.onload = function() {
+                    document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
+                    document.body.classList.add('bg-random-image');
+                };
+                
+                imgTester.onerror = function() {
+                    console.warn('接口 ' + currentApi + ' 加载失败，正在尝试下一个...');
+                    loadBackground(apiList, index + 1);
+                };
+            }
+
+            loadBackground(apiPool, 0);
             document.body.classList.add('ui-glass');
 
-            // ================= 3. 文章封面多端适配 =================
+            // ================= 4. 文章封面多端适配 =================
             var covers = document.querySelectorAll(".post-bg");
             covers.forEach(function (cover) {
-                var coverApi = isMobile ? "https://api.yppp.net/pe.php" : randomApi;
-                var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.random();
+                var coverApi = isMobile ? "https://bing.biturl.top/?resolution=1080x1920&format=image" : apiPool[0];
+                var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.floor(Math.random() * 100);
                 cover.style.backgroundImage = "url('" + coverUrl + "')";
             });
 
-            // ================= 4. 悬浮预览窗逻辑 (保持原样) =================
-            // ... (把你之前的 setTimeout 悬浮窗代码原封不动粘在这里) ...
+            // ================= 5. 全局悬浮预览窗 =================
             setTimeout(function() {
-                // 同时抓取友链卡片和漫游卡片
                 const targetItems = document.querySelectorAll('.flink-list-item, .nav-card');
                 if(targetItems.length === 0) return;
 
@@ -624,6 +626,7 @@ inject:
         });
       </script>
 
+      
 # --------------------------------------
 # CDN 设置
 # --------------------------------------
