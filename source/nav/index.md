@@ -3,23 +3,22 @@ title: 漫游
 date: 2026-10-21 12:00:00
 comments: false
 ---
+
+{% raw %}
 <div class="nav-header-box">
     <h1>🧭 漫游指南</h1>
     <p>这里是博主常去的地方，收录了实用的工具、有趣的灵魂和灵感源泉。输入关键词，立刻找到你需要的工具。</p>
     
-    <!-- 搜索框 -->
     <div class="nav-search-container">
         <input type="text" id="nav-search-input" placeholder="🔍 搜索工具，例如：PDF、图片压缩、AI...">
     </div>
 </div>
 
-<!-- 搜索结果提示（默认隐藏） -->
 <div id="search-empty" style="display:none; text-align:center; padding: 40px; color: #666;">
     <h3>😵 没找到相关工具</h3>
     <p>换个关键词试试，比如：“图片”、“翻译”、“代码”</p>
 </div>
 
-<!-- 极客与开发 -->
 <div class="nav-section-group" data-section="极客与开发">
     <h2 class="nav-section-title"><i class="fas fa-code"></i> 极客与开发</h2>
     <div class="nav-grid">
@@ -61,7 +60,6 @@ comments: false
     </div>
 </div>
 
-<!-- 图像与设计 -->
 <div class="nav-section-group" data-section="图像与设计">
     <h2 class="nav-section-title"><i class="fas fa-palette"></i> 图像与设计</h2>
     <div class="nav-grid">
@@ -110,7 +108,6 @@ comments: false
     </div>
 </div>
 
-<!-- 文档与效率 -->
 <div class="nav-section-group" data-section="文档与效率">
     <h2 class="nav-section-title"><i class="fas fa-file-alt"></i> 文档与效率</h2>
     <div class="nav-grid">
@@ -152,7 +149,6 @@ comments: false
     </div>
 </div>
 
-<!-- 热点与AI -->
 <div class="nav-section-group" data-section="热点与AI">
     <h2 class="nav-section-title"><i class="fas fa-fire"></i> 热点与AI</h2>
     <div class="nav-grid">
@@ -181,48 +177,23 @@ comments: false
 </div>
 
 <style>
-/* 搜索框容器 */
-.nav-search-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
+.nav-search-container { margin-top: 20px; display: flex; justify-content: center; }
 .nav-search-container input {
-    width: 100%;
-    max-width: 500px;
-    padding: 15px 25px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    transition: all 0.3s ease;
+    width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    font-size: 16px; color: #333; outline: none; transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 .nav-search-container input:focus {
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border-color: #49B1F5;
+    background: rgba(255, 255, 255, 0.8); box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-color: #49B1F5;
 }
 [data-theme="dark"] .nav-search-container input {
-    background: rgba(30, 30, 30, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(30, 30, 30, 0.6); border-color: rgba(255, 255, 255, 0.1); color: #fff;
 }
-[data-theme="dark"] .nav-search-container input:focus {
-    background: rgba(30, 30, 30, 0.9);
-}
-
-/* 搜索时隐藏无关分类 */
-.nav-section-group.hide-section {
-    display: none !important;
-}
-.nav-card.hide-card {
-    display: none !important;
-}
+[data-theme="dark"] .nav-search-container input:focus { background: rgba(30, 30, 30, 0.9); }
+.nav-section-group.hide-section { display: none !important; }
+.nav-card.hide-card { display: none !important; }
 </style>
 
 <script>
@@ -235,19 +206,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const keyword = e.target.value.toLowerCase().trim();
         let hasResult = false;
 
-        // 遍历每个大分类
         sections.forEach(section => {
             const cards = section.querySelectorAll('.nav-card');
             let sectionHasVisibleCard = false;
 
-            // 遍历该分类下的每一个卡片
             cards.forEach(card => {
-                // 获取标题、描述和隐藏的标签
                 const title = (card.getAttribute('data-title') || '').toLowerCase();
                 const tags = (card.getAttribute('data-tags') || '').toLowerCase();
                 const desc = card.querySelector('.nav-desc').innerText.toLowerCase();
 
-                // 匹配逻辑：标题、描述、或者隐藏标签包含关键词
                 if (title.includes(keyword) || tags.includes(keyword) || desc.includes(keyword)) {
                     card.classList.remove('hide-card');
                     sectionHasVisibleCard = true;
@@ -257,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // 如果这个分类下没有任何匹配的卡片，则隐藏整个分类
             if (sectionHasVisibleCard) {
                 section.classList.remove('hide-section');
             } else {
@@ -265,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 处理没有结果的情况
         if (hasResult || keyword === '') {
             emptyMsg.style.display = 'none';
         } else {
@@ -274,3 +239,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+{% endraw %}
