@@ -290,27 +290,44 @@ search:
 # --------------------------------------
 # 分享与评论系统 (Giscus 预留)
 # --------------------------------------
-share:
-  use: 
+# share:
+#   use: 
 
+# comments:
+#   use: Giscus
+#   text: true
+#   lazyload: false
+#   count: false
+#   card_post_count: false
+
+# giscus:
+#   repo: lty-041010/lty-041010.github.io
+#   repo_id: R_kgDOVP0sGg
+#   category: Comments
+#   category_id: DIC_kwDOVP0sGs4DJH_W
+#   # ★ 改用你自己的域名，分别指向亮色和暗色文件
+#   light_theme: https://lty04.dpdns.org/css/giscus-light.css
+#   dark_theme: https://lty04.dpdns.org/css/giscus-dark.css
+#   js: https://giscus.app/client.js
+#   lang: zh-CN
+#   option:
+
+
+# --------------------------------------
+# 分享与评论系统 (waline 预留)
+# --------------------------------------
 comments:
-  use: Giscus
-  text: true
-  lazyload: false
-  count: false
-  card_post_count: false
+  use: Waline
 
-giscus:
-  repo: lty-041010/lty-041010.github.io
-  repo_id: R_kgDOVP0sGg
-  category: Comments
-  category_id: DIC_kwDOVP0sGs4DJH_W
-  # ★ 改用你自己的域名，分别指向亮色和暗色文件
-  light_theme: https://lty04.dpdns.org/css/giscus-light.css
-  dark_theme: https://lty04.dpdns.org/css/giscus-dark.css
-  js: https://giscus.app/client.js
-  lang: zh-CN
+waline:
+  serverURL: https://comments.lty04.dpdns.org # 必填！你的 Waline 后端地址
+  bg: # Waline 评论框背景图（可选）
+  pageview: true # 开启阅读量统计
   option:
+    requiredMeta: [nick, mail] # 将昵称和邮箱设为必填项
+    locale:
+      placeholder: 昵称和邮箱必填，以便接收回复邮件通知哦~ # 自定义提示语 
+
 
 
 # --------------------------------------
