@@ -1,4 +1,19 @@
-node_modules
-db.json
+# 依赖包
+node_modules/
+.pnpm-store/
+
+# 生成与部署缓存
 public/
 .deploy_git/
+db.json
+*.log
+
+# 环境变量与密钥（防泄露）
+.env
+.env.local
+
+# 系统与编辑器文件
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
