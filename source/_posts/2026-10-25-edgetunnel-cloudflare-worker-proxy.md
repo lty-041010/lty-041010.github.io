@@ -1,6 +1,6 @@
 ---
 title: 'edgetunnel：把一套代理“产品”塞进 Cloudflare 的 Worker 里'
-date: 2026-10-25 12:00:00
+date: 2026-10-25 08:00:00
 categories:
   - 技术
 tags:
