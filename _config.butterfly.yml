@@ -287,31 +287,6 @@ search:
   use:
   placeholder:
 
-# --------------------------------------
-# 分享与评论系统 (Giscus 预留)
-# --------------------------------------
-# share:
-#   use: 
-
-# comments:
-#   use: Giscus
-#   text: true
-#   lazyload: false
-#   count: false
-#   card_post_count: false
-
-# giscus:
-#   repo: lty-041010/lty-041010.github.io
-#   repo_id: R_kgDOVP0sGg
-#   category: Comments
-#   category_id: DIC_kwDOVP0sGs4DJH_W
-#   # ★ 改用你自己的域名，分别指向亮色和暗色文件
-#   light_theme: https://lty04.dpdns.org/css/giscus-light.css
-#   dark_theme: https://lty04.dpdns.org/css/giscus-dark.css
-#   js: https://giscus.app/client.js
-#   lang: zh-CN
-#   option:
-
 
 # --------------------------------------
 # 分享与评论系统
