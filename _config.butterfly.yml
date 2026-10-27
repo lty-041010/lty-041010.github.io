@@ -314,25 +314,35 @@ search:
 
 
 # --------------------------------------
-# 分享与评论系统 (waline 预留)
+# 分享与评论系统
 # --------------------------------------
 share:
-  use: 
+  use: # 留空则不启用分享
 
 comments:
-  use: Waline
+  use: Waline        # 指定使用 Waline
+  lazyload: false    # 设为 true 则评论框滑动到可见区域才加载
+  count: true        # 显示文章评论数
 
 waline:
-  serverURL: https://comments.lty04.dpdns.org # 必填！你的 Waline 后端地址
-  bg: # Waline 评论框背景图（可选）
-  pageview: true # 开启阅读量统计
-  option:
-    requiredMeta: [nick, mail] # 将昵称和邮箱设为必填项
-    locale:
-      placeholder: 昵称和邮箱必填，以便接收回复邮件通知哦~ # 自定义提示语 
+  serverURL: https://comments.lty04.dpdns.org # 必填！你的自定义后端域名，很规范
+  pageview: true     # 开启阅读量统计
+  commentCount: true # 文章封面/列表页显示评论数
+  
+  # 必填项设置
+  requiredMeta: [nick, mail] 
+  
+  # 自定义提示语
+  locale:
+    placeholder: 昵称和邮箱必填，以便接收回复邮件通知哦~ 
+    
+  # 表情包配置（建议保留）
+  emoji:
+    - https://unpkg.com/@waline/emojis@1.1.0/weibo
+    - https://unpkg.com/@waline/emojis@1.1.0/alus
 
 
-
+    
 # --------------------------------------
 # 聊天、统计、广告、验证（保持关闭）
 # --------------------------------------
