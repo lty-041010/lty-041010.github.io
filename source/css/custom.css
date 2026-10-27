@@ -567,3 +567,73 @@ body.ui-glass .flink-list-item:hover {
     background: rgba(0, 0, 0, 0.3); 
     border-color: #444;
 }
+
+/* =========================================
+   10. 极致体验：降级方案与平滑过渡
+========================================= */
+
+/* --- 背景平滑过渡 --- */
+body {
+    /* 给一个初始的纯色底色，防止白屏 */
+    background-color: #f4f5f7; 
+    transition: background-image 0.8s ease-in-out, background-color 0.8s ease-in-out;
+}
+[data-theme="dark"] body {
+    background-color: #161618; 
+}
+
+/* --- 针对不支持毛玻璃的旧设备/浏览器兜底 --- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    
+    /* 浅色模式：把半透明的 0.3 变成 0.95 的纯色，保证看得清 */
+    body.ui-glass .recent-post-item, 
+    body.ui-glass .card-widget,
+    body.ui-glass #page,
+    body.ui-glass #post,
+    body.ui-glass #archive,
+    #nav .menus_item .menus_item_child,
+    body.ui-glass figure.highlight,
+    body.ui-glass #toc,
+    #footer,
+    .nav-header-box,
+    .nav-card,
+    #friend-link-form,
+    body.ui-glass .flink-list-item,
+    #global-flink-popover {
+        background: rgba(255, 255, 255, 0.95) !important; 
+    }
+    
+    /* 暗色模式：同理，变成近乎纯黑 */
+    [data-theme="dark"] body.ui-glass .recent-post-item, 
+    [data-theme="dark"] body.ui-glass .card-widget,
+    [data-theme="dark"] body.ui-glass #page,
+    [data-theme="dark"] body.ui-glass #post,
+    [data-theme="dark"] body.ui-glass #archive,
+    [data-theme="dark"] #nav .menus_item .menus_item_child,
+    [data-theme="dark"] body.ui-glass figure.highlight,
+    [data-theme="dark"] body.ui-glass #toc,
+    [data-theme="dark"] #footer,
+    [data-theme="dark"] .nav-header-box,
+    [data-theme="dark"] .nav-card,
+    [data-theme="dark"] #friend-link-form,
+    [data-theme="dark"] body.ui-glass .flink-list-item,
+    [data-theme="dark"] #global-flink-popover {
+        background: rgba(22, 22, 24, 0.95) !important; 
+    }
+}
+
+/* --- 尊重用户的系统辅助功能设置 --- */
+@media (prefers-reduced-transparency: reduce) {
+    body.ui-glass .recent-post-item, 
+    body.ui-glass .card-widget,
+    #footer {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: #f4f5f7 !important;
+    }
+    [data-theme="dark"] body.ui-glass .recent-post-item, 
+    [data-theme="dark"] body.ui-glass .card-widget,
+    [data-theme="dark"] #footer {
+        background: #161618 !important;
+    }
+}
