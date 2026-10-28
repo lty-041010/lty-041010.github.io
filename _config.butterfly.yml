@@ -457,9 +457,11 @@ inject:
   head:
     - <link rel="preconnect" href="https://fonts.loli.net">
     - <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
-    - <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    - <link href="https://fonts.loli.net/css2?family=Inter:wght@400;600&family=JetBrains+Mono&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
     - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/about-quotes.css">
+    - <link rel="preconnect" href="https://uapis.cn">
+    - <link rel="preconnect" href="https://api.dujin.org">
   bottom:
     - <script src="/js/about-quotes.js" defer></script>
     - <script src="/js/custom.js" defer></script>

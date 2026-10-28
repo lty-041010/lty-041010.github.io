@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
     } else {
         apiPool = [
-            "https://uapis.cn/api/v1/random/image?category=landscape&type=4k",
+            "https://uapis.cn/api/v1/random/image?category=landscape",
             "https://api.dujin.org/bing/1920.php",
             "https://t.alcy.cc/pc"
         ];

@@ -637,3 +637,11 @@ body {
         background: #161618 !important;
     }
 }
+
+/* 防止图片加载引起的页面抖动 */
+img {
+    aspect-ratio: attr(width) / attr(height);
+    height: auto;
+    max-width: 100%;
+    
+}

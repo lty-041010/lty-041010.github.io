@@ -3,5 +3,7 @@ packages:
 shamefullyHoist: true
 
 allowBuilds:
+  ejs: set this to true or false
   hexo-util: true
+  highlight.js: set this to true or false
 
