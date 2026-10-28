@@ -33,10 +33,11 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
+          
 
       # 3. 安装依赖
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       # 4. 构建 Hexo
       - name: Build Hexo
