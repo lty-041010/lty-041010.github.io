@@ -57,6 +57,13 @@ comments: false
                 <div class="nav-desc">手绘风在线白板，画流程图利器</div>
             </div>
         </a>
+        <a href="https://heyblog.net/" target="_blank" class="nav-card" data-title="HeyBlog" data-tags="尝试发现、整理公开的个人博客站点">
+            <div class="nav-icon">📝</div>
+            <div class="nav-info"> 
+                <div class="nav-title">HeyBlog</div>
+                <div class="nav-desc">尝试发现、整理公开个人博客站点</div>
+            </div>
+        </a>
     </div>
 </div>
 

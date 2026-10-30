@@ -1,34 +1,438 @@
 - class_name: 我的站点
   class_desc: 关于博主的一些足迹
   link_list:
-    - name: LTY 的博客
-      link: https://lty04.dpdns.org
-      avatar: https://lty04.dpdns.org/img/111.jpg
-      descr: 记录技术与生活的数字花园
-    - name: GitHub 主页
-      link: https://github.com/lty-041010
-      avatar: https://github.com/favicon.ico
-      descr: 偶尔写点代码的开源仓库(写不了一点)
-
+  - name: LTY 的博客
+    link: https://lty04.dpdns.org
+    avatar: https://lty04.dpdns.org/img/111.jpg
+    descr: 记录技术与生活的数字花园
+  - name: GitHub 主页
+    link: https://github.com/lty-041010
+    avatar: https://github.com/favicon.ico
+    descr: 偶尔写点代码的开源仓库(写不了一点)
 - class_name: 博友们
   class_desc: 优秀且有趣的灵魂，欢迎互换友链
   link_list:
-    - name: 团子和蛋糕
-      link: https://blog.tsh520.cn/
-      avatar: https://blog.tsh520.cn/assets/ziyuan/tx.webp
-      descr: 分享技术、生活和一些有趣的想法
-
-    - name: 朝朝听雨
-      link: https://rainzt.cn/
-      avatar: https://rainzt.cn/_astro/rain-avatar.BPqWWdl6_Z1QiHKf.webp
-      descr: 物物而不物于物，念念而不念于念。
-
-    - name: wuxian’s blog
-      link: https://alxian.cn
-      avatar: https://www.alxian.cn/_next/image?url=%2Fimages%2Fkeep-going.png&w=256&q=75
-      descr: 无限
-
-    - name: 某某的博客
-      link: https://example.com
-      avatar: https://example.com/avatar.jpg
-      descr: 这是一个审核通过的示例站点
+  - name: 团子和蛋糕
+    link: https://blog.tsh520.cn/
+    avatar: https://blog.tsh520.cn/assets/ziyuan/tx.webp
+    descr: 分享技术、生活和一些有趣的想法
+  - name: 朝朝听雨
+    link: https://rainzt.cn/
+    avatar: https://rainzt.cn/_astro/rain-avatar.BPqWWdl6_Z1QiHKf.webp
+    descr: 物物而不物于物，念念而不念于念。
+  - name: wuxian's blog
+    link: https://alxian.cn
+    avatar: https://www.alxian.cn/_next/image?url=%2Fimages%2Fkeep-going.png&w=256&q=75
+    descr: 无限
+  - name: Alexander
+    link: https://lanerc.me
+    avatar: https://lanerc.me/avatar.png
+    descr: ''
+  - name: 宇阳
+    link: https://liuyuyang.net
+    avatar: https://q1.qlogo.cn/g?b=qq&nk=3311118881&s=640
+    descr: ''
+  - name: 阿叶Ayeez的小站
+    link: https://blog.ayeez.cn
+    avatar: https://qiniu.ayeez.cn/avatar.jpg
+    descr: ''
+  - name: 他说
+    link: https://090909.top
+    avatar: https://090909.top/assets/images/avatar.webp
+    descr: ''
+  - name: MmzMing的知识库
+    link: https://tblog.mmzhiku.xyz
+    avatar: https://i.stardots.io/784774835/StarDots-2026052116374135506.jpg
+    descr: ''
+  - name: fqlzr
+    link: https://fqzlr.com
+    avatar: https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640
+    descr: ''
+  - name: 楠枝小笺
+    link: https://www.nannax.top
+    avatar: https://www.nannax.top/upload/avatar.jpg
+    descr: ''
+  - name: 清羽飞扬
+    link: https://blog.liushen.fun
+    avatar: https://blog.liushen.fun/info/avatar.ico
+    descr: ''
+  - name: 安知鱼
+    link: https://blog.anheyu.com
+    avatar: https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg
+    descr: ''
+  - name: Landigo's Garden
+    link: https://blog.minecraftglz.top
+    avatar: https://blog.minecraftglz.top/upload/site-icon-150x150.png?width=1600
+    descr: ''
+  - name: yukino
+    link: https://blog.ztyukino.com
+    avatar: https://tu.ztyukino.com/file/1778322126543_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-05-09_182135_917.jpg
+    descr: ''
+  - name: Sigrika-善良耙耙柑🍊
+    link: https://qwq.sigrika.cc
+    avatar: https://weavatar.com/avatar/bc0dba25ea5949e8290d012e081ceec669aa7784c7ad765173473c80cbaee404
+    descr: ''
+  - name: Hyde Blog
+    link: https://seasir.top
+    avatar: https://seasir.top/assets/avatar.avif
+    descr: ''
+  - name: 年华
+    link: https://blog.520781.xyz
+    avatar: https://q1.qlogo.cn/g?b=qq&nk=1323860289&s=640
+    descr: ''
+  - name: RAGNote
+    link: https://ragnote.top
+    avatar: https://ragnote.top/Avatar.png
+    descr: ''
+  - name: 临渊羡鱼
+    link: https://x1anyu.cn
+    avatar: https://imgbed.yufish.cn/file/1786706585612_avatar.png
+    descr: ''
+  - name: 闪程-猫条的笔记
+    link: https://blog.rainyunrgs.cn
+    avatar: https://rustfsapi.rainyunrgs.cn/blog/avatar.jpg
+    descr: ''
+  - name: Secret Blog
+    link: https://secretblog.my.id
+    avatar: https://i.ibb.co.com/tpYBWwXy/shangdi.avif
+    descr: ''
+  - name: Wcowin's Blog
+    link: https://wcowin.work
+    avatar: https://s1.imagehub.cc/images/2025/12/06/28380affd86b014a6dcaf082fcc97064.png
+    descr: ''
+  - name: YFBLOG - 幻新至简
+    link: https://yfblog.asia
+    avatar: https://cdn.yfblog.asia/image/favicon.ico
+    descr: ''
+  - name: ysdy
+    link: https://ysdyblog.ccwu.cc
+    avatar: https://i.stardots.io/366046882645/StarDots-2026061016244768517.webp
+    descr: ''
+  - name: mccsjs
+    link: https://blog.seln.cn
+    avatar: https://blog.seln.cn/img/ico.jpg
+    descr: ''
+  - name: UpXuu's blog
+    link: https://upxuu.com
+    avatar: https://upxuu.com/images/me.jpg
+    descr: ''
+  - name: xf_blog
+    link: https://xfcnl.github.io
+    avatar: https://github.com/xfcnl/xfcnl.github.io/blob/main/image/MEITU_20260128_220225596.jpg?raw=true
+    descr: ''
+  - name: 流欺の博客
+    link: https://blog.lqay.cn
+    avatar: https://tc.lqay.cn/LightPicture/2026/03/5f64e0f0f361e19c.png
+    descr: ''
+  - name: June's Blog
+    link: https://blog.june-pj.cn
+    avatar: https://gitlab.com/June_PJ/PicGo-PJ/raw/main/img/avatar.webp
+    descr: ''
+  - name: 抚七kilroy
+    link: https://fuqikilroy.github.io/HEXO
+    avatar: https://bu.dusays.com/2025/09/03/68b82f0be7fb7.webp
+    descr: ''
+  - name: 汇Ui
+    link: https://www.huiui.net
+    avatar: https://www.huiui.net/image/icon.png
+    descr: ''
+  - name: One
+    link: https://wiki.xxdevops.cn
+    avatar: https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif
+    descr: ''
+  - name: 拾玖的个人博客
+    link: https://shijiucode.cn
+    avatar: https://shijiucode.cn/avatar.jpg
+    descr: ''
+  - name: 茗辰原
+    link: https://mingcy.cn
+    avatar: https://mingcy.cn/image/mcy.png
+    descr: ''
+  - name: JerryLife
+    link: https://jerry-nis.top
+    avatar: https://free.picui.cn/free/2026/07/16/6a58eb63ecbd1.png
+    descr: ''
+  - name: Aimerting
+    link: https://blog.xuioo.com
+    avatar: https://blog.xuioo.com/avatar.jpg
+    descr: ''
+  - name: THW's Blog
+    link: https://blog.tianhw.top
+    avatar: https://image.tianhw.top/avatar.webp
+    descr: ''
+  - name: Sakura
+    link: https://sakura-hu.top
+    avatar: https://sakura-hu.top/_astro/avatar.CS-ZQTIU_myA2M.webp
+    descr: ''
+  - name: 万物皆可写
+    link: https://博客.何意味.ink
+    avatar: https://img.cdn1.vip/i/6a8bf9c69e99a_1787558342.webp
+    descr: ''
+  - name: Xixmu
+    link: https://xixmu.top
+    avatar: https://xixmu.top/_astro/head_ima.rsW3s28l_1KtIxl.avif
+    descr: ''
+  - name: 胡超，作品集
+    link: https://blog.huchao.vip
+    avatar: https://img.huchao.vip/file/avatar/1782805912195_7cf1163ce5b4c2783fc89f56e11124c1.jpg
+    descr: ''
+  - name: Lin Blog
+    link: https://linlog.top
+    avatar: https://linlog.top/api/uploads/2026/09/1788411216332767920-dca59196a965c5e8.jpg
+    descr: ''
+  - name: 奇怪の博客
+    link: https://qiguai.net
+    avatar: https://qiguai.net/favicon/safari-pinned-tab.svg
+    descr: ''
+  - name: 星宇安全实验室
+    link: https://bk.zhaozhiqiang.pw
+    avatar: https://bk.zhaozhiqiang.pw/wp-content/uploads/2026/07/1784847314130_148x148.png
+    descr: ''
+  - name: 左沐の手册
+    link: https://azuma.mstzuomu.space
+    avatar: https://tu.mstzuomu.space/file/头像/1786942479049_azumahead.jpg
+    descr: ''
+  - name: 张萌萌
+    link: https://blog.nw177.cn
+    avatar: https://blog.nw177.cn/assets/avatar.webp
+    descr: ''
+  - name: xane
+    link: https://xane.eu.cc
+    avatar: https://d9f.cc.cd/file/1784710214848_tx.jpg
+    descr: ''
+  - name: HZH
+    link: https://clannad.top
+    avatar: https://clannad.top/favicon.png
+    descr: ''
+  - name: YuJing的记忆终端
+    link: https://www.yujingblog.top
+    avatar: https://www.yujingblog.top/assets/home/avatar.webp
+    descr: ''
+  - name: 夜翼玖
+    link: https://yorutubasa.top
+    avatar: https://img.yorutubasa.top/i/2026/08/09/6a783c1d0812c.jpg
+    descr: ''
+  - name: 小鱼钓猫
+    link: https://blog.z2m.store
+    avatar: https://img.z2m.store/file/public/1778862620159_g.png
+    descr: ''
+  - name: 拾光小筑
+    link: https://devcoding.me
+    avatar: https://img.devcoding.me/2026/07/dc71afa20797ccb6848a36ab60c86fc9.jpg
+    descr: ''
+  - name: 星诺的博客
+    link: https://blog.astrvow.com
+    avatar: https://blog.astrvow.com/_astro/logo.DuHgmi9I_1k5uPc.webp
+    descr: ''
+  - name: 小曦的园子
+    link: https://xiaoxi.ac.cn
+    avatar: https://img.xiaoxi.ac.cn/logo.png
+    descr: ''
+  - name: 夏夜流萤
+    link: https://blog.cuteleaf.cn
+    avatar: https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640
+    descr: ''
+  - name: Homulilly
+    link: https://homulilly.com
+    avatar: https://homulilly.com/images/avatar.jpg
+    descr: ''
+  - name: 番茄主理人
+    link: https://blog.fqzlr.top
+    avatar: https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640
+    descr: ''
+  - name: 时光潜流
+    link: http://www.dreamcenter.top
+    avatar: https://www.dreamcenter.top/imgs/avatar.jpg
+    descr: ''
+  - name: 冷月笙寒的小窝
+    link: https://lygalaxy.cn
+    avatar: https://lygalaxy.cn/uploads/20260128_200240_6979fae094c7b.jpg
+    descr: ''
+  - name: 清吾
+    link: https://www.qingwu.ink
+    avatar: https://www.qingwu.ink/images/avatar.jpg
+    descr: ''
+  - name: Muyu の 小窝
+    link: https://muyudada.dpdns.org
+    avatar: https://muyuimg.cc.cd/file/blog/1788157305659_maomao.gif
+    descr: ''
+  - name: 阿珏酱のBlog
+    link: https://moejue.cn
+    avatar: https://www.gravatar.com/avatar/38b9c60304cd389f2972d08b325ae491b5cdd115ef6eb11b71ca8209d2e730f6?s=200
+    descr: ''
+  - name: 雨雪冰屋
+    link: https://iamyukino.cn
+    avatar: https://iamyukino.cn/favicon.ico
+    descr: ''
+  - name: Asteri5m的小破站
+    link: https://asteri5m.icu
+    avatar: https://asteri5m.icu/upload/20af907e-4769-4251-8e8c-0f0b52355380.png
+    descr: ''
+  - name: 摸鱼の客栈
+    link: https://blog.fwneko.com
+    avatar: https://img.fwneko.com/ico/logo.gif
+    descr: ''
+  - name: 爱吃猫的鱼
+    link: https://blog.talen.top
+    avatar: https://image.talen.top/20251229184705_wgsva7g9.png
+    descr: ''
+  - name: 灵的梦境
+    link: https://lemonadorable.github.io
+    avatar: https://lemonadorable.github.io/favicon/favicon.gif
+    descr: ''
+  - name: Xgrblog
+    link: https://xgrblog.cn
+    avatar: https://xgrblog.cn/avatar.jpg
+    descr: ''
+  - name: Petrichor's Blog
+    link: https://blog.telyra.top
+    avatar: https://blog.telyra.top/avatar.webp
+    descr: ''
+  - name: Ming Blog
+    link: https://mingblog.site
+    avatar: https://mingblog.site/icons/icon-512.png
+    descr: ''
+  - name: Ditto
+    link: https://blog.blueke.top
+    avatar: https://gcore.jsdelivr.net/gh/Keduoli03/My_img@img/avatar.jpg
+    descr: ''
+  - name: sssr7844的博客
+    link: https://sssr7844.cc.cd
+    avatar: https://sssr7844.cc.cd/wp-content/uploads/2026/07/1785027509-霞塔_original-scaled-e1785157015117.jpg
+    descr: ''
+  - name: 拾柒
+    link: https://www.s17.cn
+    avatar: https://www.s17.cn/logo.png
+    descr: ''
+  - name: 桃之夭夭
+    link: https://taozhiyy.top
+    avatar: https://taozhiyy.top/cos/1.png
+    descr: ''
+  - name: 九仞之行
+    link: https://styunlen.cn
+    avatar: https://gravatar.loli.net/avatar/e4798a16feefbbe2d4b74d6fd4b8a3184133ae13b68305b223a9453fc11527e4?s=256&r=g&d=404
+    descr: ''
+  - name: 林子浩的日记
+    link: https://lzh1.cn
+    avatar: https://lzh1.cn/favicon.ico
+    descr: ''
+  - name: 王一君Mew
+    link: https://wyjmew.cn
+    avatar: https://wyjmew.cn/app.png
+    descr: ''
+  - name: 路明笔记
+    link: https://www.luming.cool
+    avatar: https://image.luming.cool/i/2026/05/10/6a001b4129893.png
+    descr: ''
+  - name: 林间随笔
+    link: https://linyu.live
+    avatar: https://linyu.live/logo.png
+    descr: ''
+  - name: 陈义程博客
+    link: https://www.chenyicheng.cn
+    avatar: https://chenyicheng.cn/assets/images/avatar1.png
+    descr: ''
+  - name: Sunrise's blog
+    link: https://wowtang.top
+    avatar: https://wowtang.top/images/avatar.png
+    descr: ''
+  - name: Xe_iu的杂物间
+    link: https://blog.xeiu.top
+    avatar: https://blog.xeiu.top/logo-img/logo.jpg
+    descr: ''
+  - name: 没吃饱的天镜镜
+    link: https://blog.8765777.xyz
+    avatar: https://blogr2.8765777.xyz/assets/my/7590A261E0E39A642ABF4873E89EAFF9.jpg
+    descr: ''
+  - name: I'm WhiteBear
+    link: https://whitebear.im
+    avatar: https://whitebear.im/usr/uploads/2024/11/568223243.png
+    descr: ''
+  - name: 0c0 的小窝
+    link: https://blog.0c0.ren
+    avatar: https://blog.0c0.ren/favicon.ico
+    descr: ''
+  - name: 黄鼠狼的树洞
+    link: https://blog.weasel6.cn
+    avatar: https://files.seeusercontent.com/2026/06/26/Fo0x/LOGO.webp
+    descr: ''
+  - name: Evilrabbit Blog
+    link: https://blog.yujiay.wang
+    avatar: https://blog.yujiay.wang/images/site/BlogHsvg.png
+    descr: ''
+  - name: 楠枝小笺
+    link: https://www.nanzhiy.cn
+    avatar: https://www.nanzhiy.cn/upload/avatar.jpg
+    descr: ''
+  - name: 睿朗的小窝
+    link: https://notes.iamcrl.cn
+    avatar: https://iamcrl.cn/avatar.jpg
+    descr: ''
+  - name: Moyor的炼药小锅
+    link: https://moyor.cc
+    avatar: https://moyor.cc/images/logo.svg
+    descr: ''
+  - name: SilverCode_Nexus
+    link: https://www.replow.org
+    avatar: https://cdn.replow.org/replow-org/images/tx.ico
+    descr: ''
+  - name: Wangxinyang
+    link: https://wangxinyang.top
+    avatar: https://wangxinyang.top/avatar.png
+    descr: ''
+  - name: 第四世界
+    link: https://onewumi.com
+    avatar: https://onewumi.com/wp-content/uploads/2025/10/cropped-cropped-cropped-cropped-4world-LOGO-scaled-1-192x192.png
+    descr: ''
+  - name: 折腾进行中
+    link: https://www.9ll.uk
+    avatar: https://www.9ll.uk/gallery/blog/avatar.avif
+    descr: ''
+  - name: 铭心の博客
+    link: https://www.mxin.me
+    avatar: https://www.mxin.me/favicon.ico
+    descr: ''
+  - name: Demius
+    link: https://blog.demius.tech
+    avatar: https://unpkg.com/mzxi-static-resources@1.0.3/dist/img/avatar.jpg
+    descr: ''
+  - name: 叁拾玖の小站
+    link: https://www.sanshijiu.cn
+    avatar: https://www.sanshijiu.cn/static/avatar/1/1787397803188bebb136a.jpg
+    descr: ''
+  - name: 朽丘秋雨
+    link: https://koxiuqiu.cn
+    avatar: https://koxiuqiu.cn/aicon.png
+    descr: ''
+  - name: 蒂诺星球
+    link: https://ink.tino.im
+    avatar: https://ink.tino.im/logo
+    descr: ''
+  - name: 年华
+    link: https://blog.amamo.top
+    avatar: https://q1.qlogo.cn/g?b=qq&nk=1323860289&s=640
+    descr: ''
+  - name: Somoe Home
+    link: https://somoe.xyz
+    avatar: https://somoe.xyz/qiumonster.webp
+    descr: ''
+  - name: SamsBlog
+    link: https://blog.yingwutown.top
+    avatar: https://blog.yingwutown.top/media/brand/logo.jpg
+    descr: ''
+  - name: Haven
+    link: https://hizyt.com
+    avatar: https://hizyt.com/brand/haven-mascot-logo-384.png
+    descr: ''
+  - name: 博客故事
+    link: https://bk.gs.cn
+    avatar: https://bk.gs.cn/img/tubiao.png
+    descr: ''
+  - name: 冷汐的杂货铺
+    link: https://lengxiqwq.com
+    avatar: https://weavatar.com/avatar/20ac1fc492bcd37c6f1e6435250a00a490403efd468f632c11fcbe87c1c3287b?s=256
+    descr: ''
+  - name: 花园电波
+    link: https://gardendenpa.cn
+    avatar: https://gardendenpa.cn/assets/images/avatar-shuzi.webp
+    descr: ''

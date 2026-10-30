@@ -465,6 +465,7 @@ inject:
   bottom:
     - <script src="/js/about-quotes.js" defer></script>
     - <script src="/js/custom.js" defer></script>
+    - <script src="/js/flink-pagination.js"></script>
 
 
 # --------------------------------------
