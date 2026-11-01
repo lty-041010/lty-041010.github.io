@@ -82,21 +82,55 @@ comments: true
 <!-- ================= 2. 脚本区域 ================= -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ---- A. 图片容错处理（解决防盗链、加载失败问题） ----
+        // ---- A. 图片容错处理（加载失败自动生成随机文字头像） ----
     setTimeout(function() {
+        // 预设一组好看的马卡龙色系
+        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD', '#D4A5A5', '#9B59B6', '#3498DB', '#F39C12', '#1ABC9C'];
+        
         const flinkImages = document.querySelectorAll('.flink-list-item img');
+        
         flinkImages.forEach(img => {
-            // 1. 添加 referrerpolicy 防止防盗链导致的 CORS 报错
+            // 防跨域和懒加载
             img.setAttribute('referrerpolicy', 'no-referrer');
-            // 2. 添加懒加载
             img.setAttribute('loading', 'lazy');
-            // 3. 添加 onerror 兜底图（请替换为你本地的一张默认头像）
+            
             img.onerror = function() {
-                this.src = '/img/default-avatar.png'; // 记得把默认图放到 source/img/ 下
-                this.onerror = null; // 防止死循环
+                // 防止死循环
+                if (this.dataset.isErrorHandled) return;
+                this.dataset.isErrorHandled = 'true';
+
+                // 获取友链名称
+                let name = '友';
+                const itemContainer = this.closest('.flink-list-item');
+                if (itemContainer) {
+                    const nameEl = itemContainer.querySelector('.flink-item-name');
+                    if (nameEl && nameEl.innerText) {
+                        name = nameEl.innerText.trim();
+                    }
+                }
+
+                // 提取首字（如果是英文则提取首字母）
+                const firstChar = name.charAt(0).toUpperCase();
+                
+                // 根据名字生成固定的随机颜色（保证同一个名字每次刷新颜色一样）
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                const bgColor = colors[Math.abs(hash) % colors.length];
+
+                // 生成 SVG 头像 (100x100)
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                    <rect width="100" height="100" fill="${bgColor}"/>
+                    <text x="50%" y="50%" dy=".35em" fill="#ffffff" font-size="45" font-family="sans-serif" font-weight="bold" text-anchor="middle">${firstChar}</text>
+                </svg>`;
+                
+                // 转换为 Data URL 并赋值
+                this.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+                this.style.objectFit = 'cover'; 
             };
         });
-    }, 800); // 延迟 800ms 确保友链渲染完成
+    }, 800); 
 
     // ---- B. 搜索框逻辑 ----
     setTimeout(function() {
