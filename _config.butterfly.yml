@@ -65,9 +65,9 @@ cover:
   aside_enable: true
   archives_enable: true
   default_cover:
+    # ★ 已移除极易超时的 unsplash 链接，替换为稳定的随机图 API（或使用本地图片 /img/cover.jpg）
+    - https://t.alcy.cc/pc
     - https://uapis.cn/api/v1/random/image?category=landscape
-    - https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop
-    - https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop
 
 error_img:
   flink: /img/friend_404.gif
@@ -164,7 +164,7 @@ footer:
   nav:
   owner:
     enable: true
-    since: 2026 # ★ 改成 2026，页面就只会显示 © 2026 By LTY
+    since: 2026 
   copyright:
     enable: true
     version: false
@@ -224,7 +224,6 @@ aside:
     enable: true
     post_count: true
     last_push_date: true
-    # 如果你想调整顺序，可以在下面这行把 wordcount 放进 hide 或 show 里，但不写默认全显示
     sort_order:
     runtime_date: 10/19/2026 00:00:00
 
@@ -260,14 +259,10 @@ copy:
   copyright:
     enable: false
 
-# 需要安装 hexo-wordcount 插件
 wordcount:
   enable: true
-  # 在文章 meta 中显示文章字数 (文章页可见)
   post_wordcount: true
-  # 在文章 meta 中显示阅读时间 (文章页可见)
   min2read: true
-  # 在侧边栏的 webinfo 中显示网站总字数
   total_wordcount: false
 
 busuanzi:
@@ -292,30 +287,27 @@ search:
 # 分享与评论系统
 # --------------------------------------
 share:
-  use: # 留空则不启用分享
+  use: 
 
 comments:
-  use: Waline        # 指定使用 Waline
-  lazyload: false    # 设为 true 则评论框滑动到可见区域才加载
-  count: true        # 显示文章评论数
+  use: Waline        
+  lazyload: true     # ★ 修改为 true：滑动到评论区才加载，不在页面顶部就发请求
+  count: true        
 
 waline:
-  serverURL: https://comments.lty04.dpdns.org # 必填！你的自定义后端域名，很规范
-  pageview: true     # 开启阅读量统计
-  commentCount: true # 文章封面/列表页显示评论数
+  serverURL: https://comments.lty04.dpdns.org 
+  pageview: false     # ★ 修改为 false：不在列表页拉取阅读量，避免满屏 XHR 请求
+  commentCount: false # ★ 修改为 false：不在列表页拉取评论数
   
-  # 必填项设置
   requiredMeta: [nick, mail] 
   
-  # 自定义提示语
   locale:
     placeholder: 昵称和邮箱必填，以便接收回复邮件通知哦~ 
     
-  # 表情包配置（建议保留）
   emoji:
-    - https://unpkg.com/@waline/emojis@1.1.0/weibo
-    - https://unpkg.com/@waline/emojis@1.1.0/alus
-
+    # ★ 已替换为国内极速的 360 前端 CDN，不再使用卡顿的 unpkg
+    - https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo
+    - https://npm.elemecdn.com/@waline/emojis@1.1.0/alus
 
     
 # --------------------------------------
@@ -358,7 +350,6 @@ beautify:
 font:
   global_font_size: 16px
   code_font_size: 14px
-  # 注意：引号嵌套，英文在前，中文在后，最后加无衬线兜底
   font_family: 'Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
   code_font_family: '"JetBrains Mono", "Fira Code", Consolas, monospace'
 
@@ -369,7 +360,7 @@ blog_title_font:
 hr_icon:
   enable: true
 
-# ========== 特效基础配置（全部彻底关闭，保持最纯粹的阅读体验） ==========
+# ========== 特效基础配置 ==========
 activate_power_mode:
   enable: false
 
@@ -432,8 +423,8 @@ snackbar:
 instantpage: false
 
 lazyload:
-  enable: true
-  native: true
+  enable: true   # ★ 开启懒加载
+  native: true   # ★ 开启原生懒加载，极其重要，防止阻塞标签页
   field: site
   placeholder:
   blur: false
@@ -449,7 +440,6 @@ structured_data:
 
 css_prefix: true
 
-
 # --------------------------------------
 # 注入（引入字体 + 外部 JS/CSS）
 # --------------------------------------
@@ -461,6 +451,7 @@ inject:
     - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/about-quotes.css">
     - <link rel="preconnect" href="https://uapis.cn">
+    # ★ 已移除废弃且报错的 api.dujin.org 预连接
   bottom:
     - <script src="/js/about-quotes.js" defer></script>
     - <script src="/js/custom.js" defer></script>
@@ -472,7 +463,7 @@ inject:
 # --------------------------------------
 CDN:
   internal_provider: local
-  third_party_provider: unpkg
+  third_party_provider: jsdelivr  # ★ 已改为 jsdelivr，比 unpkg 稳定得多
   version: true
   custom_format:
   option:
