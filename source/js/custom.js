@@ -202,4 +202,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }, 500);
+        // ================= 7. 强行终止标签页转圈 (解决 window.onload 死等) =================
+    // 浏览器默认会等所有图片、XHR请求结束才停止转圈。
+    // 我们在 3.5 秒后强行调用 window.stop() 掐断残余请求，让标签页瞬间秒停。
+    setTimeout(function() {
+        if (document.readyState !== 'complete') {
+            window.stop(); 
+            console.log("已强制终止非核心网络请求，停止标签页转圈。");
+        }
+    }, 3500);
 });
