@@ -26,64 +26,77 @@ document.addEventListener('DOMContentLoaded', function() {
     var deviceType = getDeviceType();
     console.log("当前设备判定为: " + deviceType);
 
-    // ================= 2. 根据设备分配图池 =================
+    // ================= 2. 根据设备分配图池 (已剔除失效接口) =================
     var apiPool;
     if (deviceType === 'mobile') {
         apiPool = [
-            "https://api.yppp.net/pe.php",
-            "https://api.dearxuan.com/image?type=mobile",
-            "https://api.dujin.org/bing/1080.php"
+            "https://t.alcy.cc/mp", // 稳定移动端图源
+            "https://api.btstu.cn/sjbz/api.php?lx=mobile&format=images",
+            "https://api.dearxuan.com/image?type=mobile"
         ];
     } else if (deviceType === 'tablet') {
         apiPool = [
-            "https://api.dujin.org/bing/1920.php",
-            "https://t.alcy.cc/pc"
+            "https://t.alcy.cc/pc",
+            "https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images"
         ];
     } else {
         apiPool = [
-            "https://uapis.cn/api/v1/random/image?category=landscape",
-            "https://api.dujin.org/bing/1920.php",
-            "https://t.alcy.cc/pc"
+            "https://t.alcy.cc/pc", // 极其稳定的二次元图源
+            "https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images", // 必应/动漫图源
+            "https://uapis.cn/api/v1/random/image?category=landscape"
         ];
     }
 
+    // 兜底图（建议换成你自己服务器上的图片，比如 /img/default-bg.jpg）
     var fallbackImg = "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop";
 
-    // ================= 3. 自动重试加载背景 =================
-    apiPool.sort(() => Math.random() - 0.5);
-
-    function loadBackground(apiList, index) {
-        if (index >= apiList.length) {
+    // ================= 3. 并发加载背景图 (加速显示，避免死等) =================
+    function loadBackground(apiList) {
+        // 如果图池为空，直接使用兜底图
+        if (!apiList || apiList.length === 0) {
             document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
             document.body.classList.add('bg-random-image');
-            console.warn('所有 API 均失效，已启用兜底图');
             return;
         }
 
-        var currentApi = apiList[index];
-        var finalUrl = currentApi.includes("bing") ? currentApi : currentApi + (currentApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+        let isLoaded = false; // 防止多次赋值
 
-        var imgTester = new Image();
-        imgTester.src = finalUrl;
+        // 遍历所有 API 并发请求
+        apiList.forEach(function(currentApi) {
+            var finalUrl = currentApi + (currentApi.includes("?") ? "&" : "?") + "t=" + Date.now();
+            var imgTester = new Image();
+            imgTester.src = finalUrl;
 
-        imgTester.onload = function() {
-            document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
-            document.body.classList.add('bg-random-image');
-        };
+            imgTester.onload = function() {
+                if (isLoaded) return; // 如果已经有图加载成功了，就不管后面的了
+                isLoaded = true;
+                document.documentElement.style.setProperty('--bg-img', "url('" + finalUrl + "')");
+                document.body.classList.add('bg-random-image');
+            };
 
-        imgTester.onerror = function() {
-            console.warn('接口 ' + currentApi + ' 加载失败，尝试下一个...');
-            loadBackground(apiList, index + 1);
-        };
+            imgTester.onerror = function() {
+                // 单个接口失败不输出警告，保持控制台整洁
+            };
+        });
+
+        // 如果 5 秒钟所有接口都还没响应，直接上兜底图
+        setTimeout(function() {
+            if (!isLoaded) {
+                isLoaded = true;
+                document.documentElement.style.setProperty('--bg-img', "url('" + fallbackImg + "')");
+                document.body.classList.add('bg-random-image');
+            }
+        }, 5000);
     }
 
-    loadBackground(apiPool, 0);
+    loadBackground(apiPool);
     document.body.classList.add('ui-glass');
 
     // ================= 4. 文章封面多端适配 =================
     var covers = document.querySelectorAll(".post-bg");
     covers.forEach(function (cover) {
-        var coverApi = deviceType === 'mobile' ? "https://api.dearxuan.com/image?type=mobile" : apiPool[0];
+        // 封面也使用图池里的第一个稳定接口
+        var coverApi = deviceType === 'mobile' ? apiPool[0] : "https://t.alcy.cc/pc";
         var coverUrl = coverApi + (coverApi.includes("?") ? "&" : "?") + "t=" + Date.now() + Math.floor(Math.random() * 100);
         cover.style.backgroundImage = "url('" + coverUrl + "')";
     });

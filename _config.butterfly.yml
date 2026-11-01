@@ -432,8 +432,8 @@ snackbar:
 instantpage: false
 
 lazyload:
-  enable: false
-  native: false
+  enable: true
+  native: true
   field: site
   placeholder:
   blur: false
@@ -461,7 +461,6 @@ inject:
     - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/about-quotes.css">
     - <link rel="preconnect" href="https://uapis.cn">
-    - <link rel="preconnect" href="https://api.dujin.org">
   bottom:
     - <script src="/js/about-quotes.js" defer></script>
     - <script src="/js/custom.js" defer></script>
