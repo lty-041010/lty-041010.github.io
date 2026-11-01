@@ -68,18 +68,41 @@ comments: true
     opacity: 1;
     bottom: 50px;
 }
+
+/* 无搜索结果提示 */
+.no-result-msg {
+    display: none;
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-size: 16px;
+}
 </style>
 
 <!-- ================= 2. 脚本区域 ================= -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ---- A. 搜索框逻辑 ----
+    // ---- A. 图片容错处理（解决防盗链、加载失败问题） ----
+    setTimeout(function() {
+        const flinkImages = document.querySelectorAll('.flink-list-item img');
+        flinkImages.forEach(img => {
+            // 1. 添加 referrerpolicy 防止防盗链导致的 CORS 报错
+            img.setAttribute('referrerpolicy', 'no-referrer');
+            // 2. 添加懒加载
+            img.setAttribute('loading', 'lazy');
+            // 3. 添加 onerror 兜底图（请替换为你本地的一张默认头像）
+            img.onerror = function() {
+                this.src = '/img/default-avatar.png'; // 记得把默认图放到 source/img/ 下
+                this.onerror = null; // 防止死循环
+            };
+        });
+    }, 800); // 延迟 800ms 确保友链渲染完成
+
+    // ---- B. 搜索框逻辑 ----
     setTimeout(function() {
         const flinkContainer = document.querySelector('.flink');
-        // 🚨 核心防重复：如果页面上已经存在搜索框，直接退出，防止重复生成
         if (!flinkContainer || document.getElementById('link-search-input')) return;
 
-        // 创建搜索框并插入到 .flink 容器内部的最前面
         const searchBox = document.createElement('div');
         searchBox.className = 'link-search-box';
         
@@ -91,17 +114,25 @@ document.addEventListener('DOMContentLoaded', function() {
         searchBox.appendChild(searchInput);
         flinkContainer.insertBefore(searchBox, flinkContainer.firstChild);
 
+        // 添加无结果提示 DOM
+        const noResultDiv = document.createElement('div');
+        noResultDiv.className = 'no-result-msg';
+        noResultDiv.innerText = '没有找到相关博友~';
+        flinkContainer.appendChild(noResultDiv);
+
         // 实时搜索过滤逻辑
         searchInput.addEventListener('input', function(e) {
             const keyword = e.target.value.toLowerCase().trim();
             const items = flinkContainer.querySelectorAll('.flink-list-item');
             const h2s = flinkContainer.querySelectorAll('h2');
             const descs = flinkContainer.querySelectorAll('.flink-desc');
+            let totalVisible = 0;
 
             if (keyword === '') {
                 items.forEach(item => item.style.display = '');
                 h2s.forEach(h2 => h2.style.display = '');
                 descs.forEach(desc => desc.style.display = '');
+                noResultDiv.style.display = 'none';
                 return;
             }
 
@@ -114,11 +145,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (name.includes(keyword) || descr.includes(keyword)) {
                     item.style.display = ''; 
+                    totalVisible++;
                 } else {
                     item.style.display = 'none'; 
                 }
             });
 
+            // 恢复显示符合条件的分类标题
             h2s.forEach(h2 => {
                 let nextNode = h2.nextElementSibling;
                 let hasVisible = false;
@@ -142,11 +175,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
+
+            // 控制无结果提示的显示
+            if (totalVisible === 0) {
+                noResultDiv.style.display = 'block';
+            } else {
+                noResultDiv.style.display = 'none';
+            }
         });
     }, 500);
 });
 
-// ---- B. 友链申请表单逻辑 ----
+// ---- C. 友链申请表单逻辑 ----
 function showToast(message) {
   var toast = document.getElementById("custom-toast");
   toast.innerText = message;
@@ -162,10 +202,22 @@ function generateFriendLink() {
   var avatar = document.getElementById('fl-avatar').value.trim();
   var descr = document.getElementById('fl-descr').value.trim();
 
+  // 简单的 URL 格式校验
+  if (!link.startsWith('http://') && !link.startsWith('https://')) {
+    showToast("❌ 网站链接必须以 http:// 或 https:// 开头！");
+    return;
+  }
+
   if (!name || !link || !avatar) {
     showToast("❌ 请至少填写：网站名称、网站链接、头像直链！");
     return;
   }
+
+  // 处理可能破坏 YAML 格式的特殊字符（如冒号），使用单引号包裹
+  var safeName = name.replace(/:/g, '：').replace(/'/g, "''");
+  var safeLink = link.replace(/'/g, "''");
+  var safeAvatar = avatar.replace(/'/g, "''");
+  var safeDescr = descr ? descr.replace(/:/g, '：').replace(/'/g, "''") : "这个人很懒，什么都没写";
 
   var text = "✨ 【友链申请】\n" +
              "🏷️ 网站名称：" + name + "\n" +
@@ -173,10 +225,10 @@ function generateFriendLink() {
              "🖼️ 头像直链：" + avatar + "\n" +
              "📝 网站描述：" + (descr ? descr : "这个人很懒，什么都没写") + "\n\n" +
              "👇 以下为 YAML 配置，请博主复制到 link.yml 👇\n" +
-             "- name: " + name + "\n" +
-             "  link: " + link + "\n" +
-             "  avatar: " + avatar + "\n" +
-             "  descr: " + (descr ? descr : "这个人很懒，什么都没写");
+             "- name: '" + safeName + "'\n" +
+             "  link: '" + safeLink + "'\n" +
+             "  avatar: '" + safeAvatar + "'\n" +
+             "  descr: '" + safeDescr + "'";
 
   navigator.clipboard.writeText(text).then(function() {
     showToast("✅ 申请格式已复制！请去下方评论区粘贴发布");
